@@ -1,0 +1,6 @@
+{
+  "treasuryAddress": "9fDa8pyn7ByLEVMEfKTNGs57YmnJHfXLgkfUMSrW8TC7",
+  "generatedAt": "2026-04-09T23:28:01.348Z",
+  "purpose": "SNAP protocol fee collection",
+  "note": "This wallet receives 0.25% of every pool withdrawal. Back up treasury-keypair.json securely."
+}

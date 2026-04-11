@@ -1,0 +1,42 @@
+{
+  "name": "@snap-protocol/relayer",
+  "version": "0.1.0",
+  "description": "Demo relayer service for SNAP private withdrawals",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/",
+    "assets/"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "npx tsx node_modules/.bin/mocha -t 60000 --exit tests/**/*.ts",
+    "start": "npx tsx src/index.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.31.1",
+    "@snap-protocol/sdk": "file:../sdk-package",
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.98.4",
+    "@types/better-sqlite3": "^7.6.13",
+    "better-sqlite3": "^12.8.0",
+    "bs58": "^6.0.0",
+    "express": "^4.21.2",
+    "snarkjs": "^0.7.6",
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.11",
+    "@types/express": "^5.0.1",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^25.5.0",
+    "@types/supertest": "^6.0.3",
+    "chai": "^4.3.10",
+    "mocha": "^11.7.5",
+    "supertest": "^7.1.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  }
+}

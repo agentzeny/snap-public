@@ -1,0 +1,257 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "panels": [
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "lamports"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        }
+      },
+      "targets": [
+        {
+          "expr": "snap_relayer_balance_lamports",
+          "legendFormat": "balance",
+          "refId": "A"
+        }
+      ],
+      "title": "Relayer Balance",
+      "type": "stat"
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        }
+      },
+      "targets": [
+        {
+          "expr": "snap_relay_requests_total{status=\"pending\"}",
+          "legendFormat": "pending",
+          "refId": "A"
+        }
+      ],
+      "title": "Pending Requests",
+      "type": "stat"
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        }
+      },
+      "targets": [
+        {
+          "expr": "snap_relay_requests_total{status=\"confirmed\"}",
+          "legendFormat": "confirmed",
+          "refId": "A"
+        }
+      ],
+      "title": "Confirmed Requests",
+      "type": "stat"
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        }
+      },
+      "targets": [
+        {
+          "expr": "snap_relay_requests_total{status=\"failed\"}",
+          "legendFormat": "failed",
+          "refId": "A"
+        }
+      ],
+      "title": "Failed Requests",
+      "type": "stat"
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 5
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "expr": "rate(snap_relay_tx_confirm_seconds_sum[5m]) / clamp_min(rate(snap_relay_tx_confirm_seconds_count[5m]), 1)",
+          "legendFormat": "avg confirm latency",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(snap_relay_proof_verify_seconds_sum[5m]) / clamp_min(rate(snap_relay_proof_verify_seconds_count[5m]), 1)",
+          "legendFormat": "avg proof verify latency",
+          "refId": "B"
+        }
+      ],
+      "title": "Average Latency (5m Rate)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 5
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "expr": "increase(snap_relay_requests_total{status=\"confirmed\"}[15m])",
+          "legendFormat": "confirmed / 15m",
+          "refId": "A"
+        },
+        {
+          "expr": "increase(snap_relay_requests_total{status=\"failed\"}[15m])",
+          "legendFormat": "failed / 15m",
+          "refId": "B"
+        }
+      ],
+      "title": "Recent Throughput",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": [
+    "snap",
+    "relayer"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timezone": "",
+  "title": "SNAP Relayer",
+  "version": 1
+}

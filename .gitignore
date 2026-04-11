@@ -1,0 +1,40 @@
+.anchor/
+.DS_Store
+dist/
+node_modules/
+target/
+**/*.rs.bk
+relayer-keypair.json
+treasury-keypair.json
+build/withdraw_20_0000.zkey
+test-ledger/
+.phase11-artifacts/
+.phase11-ledger/
+*.so
+.yarn
+
+# Local validator ledgers and snapshots
+.localnet-validation-ledger/
+.localnet-validation-ledger-debug/
+.phase*-ledger/
+
+# Local relayer/runtime state
+relayer-mainnet.db
+relayer-devnet.db
+.snap/
+mainnet-seed-notes/
+
+# Large local proving/tooling inputs
+build/*.ptau
+build/*.sym
+
+# Internal workflow/history never publish from this repo
+PHASE*.md
+RESULTS.md
+0. development/
+1. launch/
+HUMAN_ACTION_ITEMS*.md
+devnet-results/
+adversarial-results/
+stress-results/
+docs/COMPETITOR_MARKET_RESEARCH_*.md

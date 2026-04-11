@@ -1,0 +1,68 @@
+groups:
+  - name: snap-relayer
+    rules:
+      - alert: SNAPRelayerBalanceWarning
+        expr: snap_relayer_balance_lamports < 20000000
+        for: 10m
+        labels:
+          severity: warning
+          service: snap-relayer
+        annotations:
+          summary: SNAP relayer balance is below the warning floor
+          description: The relayer wallet has stayed below 0.02 SOL for 10 minutes.
+          runbook: docs/RELAYER_RUNBOOK.md
+
+      - alert: SNAPRelayerBalanceCritical
+        expr: snap_relayer_balance_lamports < 5000000
+        for: 5m
+        labels:
+          severity: critical
+          service: snap-relayer
+        annotations:
+          summary: SNAP relayer balance is critically low
+          description: The relayer wallet has stayed below 0.005 SOL for 5 minutes.
+          runbook: docs/RELAYER_RUNBOOK.md
+
+      - alert: SNAPPendingQueueStuck
+        expr: snap_relay_requests_total{status="pending"} > 0
+        for: 15m
+        labels:
+          severity: warning
+          service: snap-relayer
+        annotations:
+          summary: SNAP relayer has pending work that is not draining
+          description: Pending relay work has remained above zero for 15 minutes.
+          runbook: docs/RELAYER_RUNBOOK.md
+
+      - alert: SNAPRelayFailuresIncreasing
+        expr: increase(snap_relay_requests_total{status="failed"}[15m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+          service: snap-relayer
+        annotations:
+          summary: SNAP relayer failures increased in the last 15 minutes
+          description: One or more relay requests failed permanently in the recent window.
+          runbook: docs/RELAYER_RUNBOOK.md
+
+      - alert: SNAPRelaySlowConfirmations
+        expr: increase(snap_relay_tx_confirm_seconds_bucket{le="+Inf"}[15m]) - increase(snap_relay_tx_confirm_seconds_bucket{le="15.0"}[15m]) > 0
+        for: 10m
+        labels:
+          severity: warning
+          service: snap-relayer
+        annotations:
+          summary: SNAP relayer saw confirmations slower than 15 seconds
+          description: At least one relayed transaction exceeded the 15 second confirmation bucket in the last 15 minutes.
+          runbook: docs/RELAYER_RUNBOOK.md
+
+      - alert: SNAPProofVerificationSlow
+        expr: increase(snap_relay_proof_verify_seconds_bucket{le="+Inf"}[15m]) - increase(snap_relay_proof_verify_seconds_bucket{le="5.0"}[15m]) > 0
+        for: 10m
+        labels:
+          severity: warning
+          service: snap-relayer
+        annotations:
+          summary: SNAP proof verification exceeded 5 seconds
+          description: At least one off-chain proof verification exceeded the 5 second bucket in the last 15 minutes.
+          runbook: docs/RELAYER_RUNBOOK.md

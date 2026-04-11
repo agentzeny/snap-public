@@ -1,0 +1,2743 @@
+{
+  "address": "AB4LhsmXkPQE97mHX2eLuX9AR43yzjWoNjCB6Bevi7M3",
+  "metadata": {
+    "name": "agent_privacy_pool",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "deposit",
+      "discriminator": [
+        242,
+        35,
+        198,
+        137,
+        82,
+        225,
+        242,
+        182
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "depositor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "commitment",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "deposit_fee_spl",
+      "discriminator": [
+        165,
+        180,
+        115,
+        104,
+        71,
+        15,
+        182,
+        148
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "depositor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "depositor_token_account",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "commitment_page",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  109,
+                  109,
+                  105,
+                  116,
+                  109,
+                  101,
+                  110,
+                  116,
+                  95,
+                  112,
+                  97,
+                  103,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              },
+              {
+                "kind": "arg",
+                "path": "commitment_page_index"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "commitment",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "commitment_page_index",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "deposit_fee_v2",
+      "discriminator": [
+        181,
+        143,
+        146,
+        153,
+        176,
+        161,
+        145,
+        159
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "depositor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "commitment_page",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  109,
+                  109,
+                  105,
+                  116,
+                  109,
+                  101,
+                  110,
+                  116,
+                  95,
+                  112,
+                  97,
+                  103,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              },
+              {
+                "kind": "arg",
+                "path": "commitment_page_index"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "commitment",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "commitment_page_index",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "deposit_spl",
+      "discriminator": [
+        224,
+        0,
+        198,
+        175,
+        198,
+        47,
+        105,
+        204
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "depositor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "depositor_token_account",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "commitment_page",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  109,
+                  109,
+                  105,
+                  116,
+                  109,
+                  101,
+                  110,
+                  116,
+                  95,
+                  112,
+                  97,
+                  103,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              },
+              {
+                "kind": "arg",
+                "path": "commitment_page_index"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "commitment",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "commitment_page_index",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "deposit_v2",
+      "discriminator": [
+        109,
+        75,
+        69,
+        153,
+        172,
+        218,
+        146,
+        19
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "depositor",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "commitment_page",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  99,
+                  111,
+                  109,
+                  109,
+                  105,
+                  116,
+                  109,
+                  101,
+                  110,
+                  116,
+                  95,
+                  112,
+                  97,
+                  103,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              },
+              {
+                "kind": "arg",
+                "path": "commitment_page_index"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "commitment",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "commitment_page_index",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "initialize",
+      "discriminator": [
+        175,
+        175,
+        109,
+        31,
+        13,
+        152,
+        155,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "deposit_amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "initialize_fee_spl",
+      "discriminator": [
+        92,
+        126,
+        139,
+        73,
+        95,
+        16,
+        107,
+        169
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_mint_account"
+        },
+        {
+          "name": "treasury_token_account"
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "deposit_amount",
+          "type": "u64"
+        },
+        {
+          "name": "token_mint",
+          "type": "pubkey"
+        },
+        {
+          "name": "protocol_fee_bps",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "initialize_fee_v2",
+      "discriminator": [
+        4,
+        155,
+        141,
+        213,
+        94,
+        16,
+        133,
+        237
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "deposit_amount",
+          "type": "u64"
+        },
+        {
+          "name": "tree_depth",
+          "type": "u8"
+        },
+        {
+          "name": "protocol_fee_bps",
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "initialize_spl",
+      "discriminator": [
+        246,
+        190,
+        123,
+        254,
+        171,
+        107,
+        18,
+        158
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_mint_account"
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "deposit_amount",
+          "type": "u64"
+        },
+        {
+          "name": "token_mint",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "initialize_v2",
+      "discriminator": [
+        67,
+        153,
+        175,
+        39,
+        218,
+        16,
+        38,
+        32
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "deposit_amount",
+          "type": "u64"
+        },
+        {
+          "name": "tree_depth",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "update_treasury",
+      "discriminator": [
+        60,
+        16,
+        243,
+        66,
+        96,
+        59,
+        254,
+        131
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true,
+          "relations": [
+            "pool"
+          ]
+        }
+      ],
+      "args": [
+        {
+          "name": "new_treasury",
+          "type": "pubkey"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_zk",
+      "discriminator": [
+        200,
+        157,
+        37,
+        54,
+        60,
+        106,
+        129,
+        204
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "recipient",
+          "writable": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proof_a",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "proof_b",
+          "type": {
+            "array": [
+              "u8",
+              128
+            ]
+          }
+        },
+        {
+          "name": "proof_c",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nullifier_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdraw_zk_fee_spl",
+      "discriminator": [
+        211,
+        9,
+        124,
+        159,
+        130,
+        154,
+        215,
+        24
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "recipient"
+        },
+        {
+          "name": "treasury_token_account",
+          "writable": true
+        },
+        {
+          "name": "recipient_token_account",
+          "writable": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "nullifier_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  110,
+                  117,
+                  108,
+                  108,
+                  105,
+                  102,
+                  105,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              },
+              {
+                "kind": "arg",
+                "path": "nullifier_hash"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proof_a",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "proof_b",
+          "type": {
+            "array": [
+              "u8",
+              128
+            ]
+          }
+        },
+        {
+          "name": "proof_c",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nullifier_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdraw_zk_fee_v2",
+      "discriminator": [
+        68,
+        238,
+        252,
+        209,
+        57,
+        120,
+        190,
+        189
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "treasury",
+          "writable": true
+        },
+        {
+          "name": "recipient",
+          "writable": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "nullifier_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  110,
+                  117,
+                  108,
+                  108,
+                  105,
+                  102,
+                  105,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              },
+              {
+                "kind": "arg",
+                "path": "nullifier_hash"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proof_a",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "proof_b",
+          "type": {
+            "array": [
+              "u8",
+              128
+            ]
+          }
+        },
+        {
+          "name": "proof_c",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nullifier_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdraw_zk_relayed",
+      "discriminator": [
+        253,
+        48,
+        236,
+        255,
+        181,
+        200,
+        45,
+        188
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "relayer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "recipient",
+          "writable": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proof_a",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "proof_b",
+          "type": {
+            "array": [
+              "u8",
+              128
+            ]
+          }
+        },
+        {
+          "name": "proof_c",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "public_inputs",
+          "type": {
+            "array": [
+              {
+                "array": [
+                  "u8",
+                  32
+                ]
+              },
+              3
+            ]
+          }
+        },
+        {
+          "name": "fee_lamports",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_zk_relayed_fee_spl",
+      "discriminator": [
+        21,
+        105,
+        96,
+        40,
+        252,
+        168,
+        32,
+        126
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "relayer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "recipient"
+        },
+        {
+          "name": "treasury_token_account",
+          "writable": true
+        },
+        {
+          "name": "recipient_token_account",
+          "writable": true
+        },
+        {
+          "name": "relayer_token_account",
+          "writable": true
+        },
+        {
+          "name": "nullifier_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  110,
+                  117,
+                  108,
+                  108,
+                  105,
+                  102,
+                  105,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              },
+              {
+                "kind": "arg",
+                "path": "nullifier_hash"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proof_a",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "proof_b",
+          "type": {
+            "array": [
+              "u8",
+              128
+            ]
+          }
+        },
+        {
+          "name": "proof_c",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nullifier_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "fee_amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_zk_relayed_fee_v2",
+      "discriminator": [
+        180,
+        124,
+        45,
+        192,
+        248,
+        14,
+        39,
+        130
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "relayer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "treasury",
+          "writable": true
+        },
+        {
+          "name": "recipient",
+          "writable": true
+        },
+        {
+          "name": "nullifier_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  110,
+                  117,
+                  108,
+                  108,
+                  105,
+                  102,
+                  105,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              },
+              {
+                "kind": "arg",
+                "path": "nullifier_hash"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proof_a",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "proof_b",
+          "type": {
+            "array": [
+              "u8",
+              128
+            ]
+          }
+        },
+        {
+          "name": "proof_c",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nullifier_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "fee_lamports",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_zk_relayed_spl",
+      "discriminator": [
+        115,
+        95,
+        58,
+        169,
+        164,
+        135,
+        93,
+        59
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "relayer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "recipient"
+        },
+        {
+          "name": "recipient_token_account",
+          "writable": true
+        },
+        {
+          "name": "relayer_token_account",
+          "writable": true
+        },
+        {
+          "name": "nullifier_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  110,
+                  117,
+                  108,
+                  108,
+                  105,
+                  102,
+                  105,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              },
+              {
+                "kind": "arg",
+                "path": "nullifier_hash"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proof_a",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "proof_b",
+          "type": {
+            "array": [
+              "u8",
+              128
+            ]
+          }
+        },
+        {
+          "name": "proof_c",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nullifier_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "fee_amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_zk_relayed_v2",
+      "discriminator": [
+        102,
+        245,
+        160,
+        87,
+        44,
+        108,
+        149,
+        236
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "relayer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "recipient",
+          "writable": true
+        },
+        {
+          "name": "nullifier_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  110,
+                  117,
+                  108,
+                  108,
+                  105,
+                  102,
+                  105,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              },
+              {
+                "kind": "arg",
+                "path": "nullifier_hash"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proof_a",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "proof_b",
+          "type": {
+            "array": [
+              "u8",
+              128
+            ]
+          }
+        },
+        {
+          "name": "proof_c",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nullifier_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "fee_lamports",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw_zk_spl",
+      "discriminator": [
+        38,
+        125,
+        182,
+        159,
+        196,
+        203,
+        172,
+        146
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "recipient"
+        },
+        {
+          "name": "recipient_token_account",
+          "writable": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "nullifier_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  110,
+                  117,
+                  108,
+                  108,
+                  105,
+                  102,
+                  105,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              },
+              {
+                "kind": "arg",
+                "path": "nullifier_hash"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proof_a",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "proof_b",
+          "type": {
+            "array": [
+              "u8",
+              128
+            ]
+          }
+        },
+        {
+          "name": "proof_c",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nullifier_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "withdraw_zk_v2",
+      "discriminator": [
+        9,
+        231,
+        150,
+        11,
+        156,
+        85,
+        60,
+        231
+      ],
+      "accounts": [
+        {
+          "name": "pool",
+          "writable": true
+        },
+        {
+          "name": "pool_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              }
+            ]
+          }
+        },
+        {
+          "name": "recipient",
+          "writable": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "nullifier_record",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  110,
+                  117,
+                  108,
+                  108,
+                  105,
+                  102,
+                  105,
+                  101,
+                  114
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "pool"
+              },
+              {
+                "kind": "arg",
+                "path": "nullifier_hash"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "proof_a",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "proof_b",
+          "type": {
+            "array": [
+              "u8",
+              128
+            ]
+          }
+        },
+        {
+          "name": "proof_c",
+          "type": {
+            "array": [
+              "u8",
+              64
+            ]
+          }
+        },
+        {
+          "name": "root",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "nullifier_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "CommitmentPage",
+      "discriminator": [
+        255,
+        165,
+        48,
+        197,
+        55,
+        192,
+        205,
+        174
+      ]
+    },
+    {
+      "name": "NullifierRecord",
+      "discriminator": [
+        56,
+        18,
+        57,
+        175,
+        69,
+        202,
+        189,
+        70
+      ]
+    },
+    {
+      "name": "Pool",
+      "discriminator": [
+        241,
+        154,
+        109,
+        4,
+        17,
+        177,
+        109,
+        188
+      ]
+    },
+    {
+      "name": "PoolFeeV2",
+      "discriminator": [
+        231,
+        6,
+        108,
+        162,
+        152,
+        151,
+        128,
+        151
+      ]
+    },
+    {
+      "name": "PoolV2",
+      "discriminator": [
+        91,
+        12,
+        214,
+        87,
+        7,
+        185,
+        167,
+        55
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "TreasuryUpdated",
+      "discriminator": [
+        80,
+        239,
+        54,
+        168,
+        43,
+        38,
+        85,
+        145
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "PoolFull",
+      "msg": "Pool is full"
+    },
+    {
+      "code": 6001,
+      "name": "CommitmentNotFound",
+      "msg": "Commitment not found in pool"
+    },
+    {
+      "code": 6002,
+      "name": "InvalidNullifierHash",
+      "msg": "Invalid nullifier hash"
+    },
+    {
+      "code": 6003,
+      "name": "AlreadyWithdrawn",
+      "msg": "This nullifier has already been used (double-spend attempt)"
+    },
+    {
+      "code": 6004,
+      "name": "InsufficientFunds",
+      "msg": "Insufficient funds in vault"
+    },
+    {
+      "code": 6005,
+      "name": "InvalidProof",
+      "msg": "Invalid ZK proof"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidRoot",
+      "msg": "Root not found in history"
+    },
+    {
+      "code": 6007,
+      "name": "PoseidonError",
+      "msg": "Poseidon hash computation failed"
+    },
+    {
+      "code": 6008,
+      "name": "FeeTooHigh",
+      "msg": "Relayer fee must be less than the pool denomination"
+    },
+    {
+      "code": 6009,
+      "name": "InvalidTreeDepth",
+      "msg": "tree_depth must be 10 or 20"
+    },
+    {
+      "code": 6010,
+      "name": "InvalidPoolAsset",
+      "msg": "This instruction does not match the pool's asset type"
+    },
+    {
+      "code": 6011,
+      "name": "InvalidTokenMint",
+      "msg": "The provided SPL token mint does not match the pool"
+    },
+    {
+      "code": 6012,
+      "name": "UnsupportedNullifierVersion",
+      "msg": "This pool uses an unsupported nullifier storage version"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidTokenOwner",
+      "msg": "The provided token account owner does not match the expected authority"
+    },
+    {
+      "code": 6014,
+      "name": "InvalidVaultAuthority",
+      "msg": "The SPL vault authority must be the vault PDA itself"
+    },
+    {
+      "code": 6015,
+      "name": "LegacyNullifierVersion",
+      "msg": "Legacy nullifier vector mode is deprecated"
+    },
+    {
+      "code": 6016,
+      "name": "InvalidCommitmentPage",
+      "msg": "The provided commitment page does not match the next deposit slot"
+    },
+    {
+      "code": 6017,
+      "name": "InvalidDepositAmount",
+      "msg": "deposit_amount must be greater than zero and within the supported client range"
+    },
+    {
+      "code": 6018,
+      "name": "InvalidCommitment",
+      "msg": "Commitment cannot be all zeros"
+    },
+    {
+      "code": 6019,
+      "name": "ZeroNullifierNote",
+      "msg": "Notes with nullifier = 0 are not allowed"
+    },
+    {
+      "code": 6020,
+      "name": "ProtocolFeeBpsTooHigh",
+      "msg": "protocol_fee_bps must be less than or equal to 500"
+    },
+    {
+      "code": 6021,
+      "name": "InvalidTreasury",
+      "msg": "The provided treasury account does not match the pool"
+    },
+    {
+      "code": 6022,
+      "name": "CombinedFeeTooHigh",
+      "msg": "Protocol fee plus relayer fee must be less than the pool denomination"
+    },
+    {
+      "code": 6023,
+      "name": "FeeMathOverflow",
+      "msg": "Fee calculation overflowed"
+    }
+  ],
+  "types": [
+    {
+      "name": "CommitmentPage",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pool",
+            "type": "pubkey"
+          },
+          {
+            "name": "page_index",
+            "type": "u32"
+          },
+          {
+            "name": "start_offset",
+            "type": "u16"
+          },
+          {
+            "name": "commitment_count",
+            "type": "u16"
+          },
+          {
+            "name": "commitments",
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    32
+                  ]
+                },
+                48
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "NullifierRecord",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pool",
+            "type": "pubkey"
+          },
+          {
+            "name": "nullifier",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "slot",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Pool",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "deposit_amount",
+            "type": "u64"
+          },
+          {
+            "name": "next_index",
+            "type": "u32"
+          },
+          {
+            "name": "nullifier_count",
+            "type": "u32"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "root_count",
+            "type": "u32"
+          },
+          {
+            "name": "roots",
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    32
+                  ]
+                },
+                30
+              ]
+            }
+          },
+          {
+            "name": "filled_subtrees",
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    32
+                  ]
+                },
+                10
+              ]
+            }
+          },
+          {
+            "name": "commitments",
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          },
+          {
+            "name": "used_nullifiers",
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PoolFeeV2",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "deposit_amount",
+            "type": "u64"
+          },
+          {
+            "name": "protocol_fee_bps",
+            "type": "u16"
+          },
+          {
+            "name": "next_index",
+            "type": "u32"
+          },
+          {
+            "name": "nullifier_count",
+            "type": "u32"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "nullifier_version",
+            "type": "u8"
+          },
+          {
+            "name": "tree_depth",
+            "type": "u8"
+          },
+          {
+            "name": "token_mint",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "root_count",
+            "type": "u32"
+          },
+          {
+            "name": "roots",
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    32
+                  ]
+                },
+                30
+              ]
+            }
+          },
+          {
+            "name": "filled_subtrees",
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    32
+                  ]
+                },
+                20
+              ]
+            }
+          },
+          {
+            "name": "commitments",
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          },
+          {
+            "name": "used_nullifiers",
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "PoolV2",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "deposit_amount",
+            "type": "u64"
+          },
+          {
+            "name": "next_index",
+            "type": "u32"
+          },
+          {
+            "name": "nullifier_count",
+            "type": "u32"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          },
+          {
+            "name": "nullifier_version",
+            "type": "u8"
+          },
+          {
+            "name": "tree_depth",
+            "type": "u8"
+          },
+          {
+            "name": "token_mint",
+            "type": {
+              "option": "pubkey"
+            }
+          },
+          {
+            "name": "root_count",
+            "type": "u32"
+          },
+          {
+            "name": "roots",
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    32
+                  ]
+                },
+                30
+              ]
+            }
+          },
+          {
+            "name": "filled_subtrees",
+            "type": {
+              "array": [
+                {
+                  "array": [
+                    "u8",
+                    32
+                  ]
+                },
+                20
+              ]
+            }
+          },
+          {
+            "name": "commitments",
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          },
+          {
+            "name": "used_nullifiers",
+            "type": {
+              "vec": {
+                "array": [
+                  "u8",
+                  32
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "TreasuryUpdated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pool",
+            "type": "pubkey"
+          },
+          {
+            "name": "old_treasury",
+            "type": "pubkey"
+          },
+          {
+            "name": "new_treasury",
+            "type": "pubkey"
+          }
+        ]
+      }
+    }
+  ]
+}

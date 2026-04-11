@@ -1,0 +1,53 @@
+{
+  "name": "snap-solana-sdk",
+  "version": "0.1.0-beta.1",
+  "description": "Shielded agent-to-agent payments on Solana using ZK proofs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/",
+    "assets/"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "npx tsx node_modules/.bin/mocha -t 60000 --exit tests/**/*.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "solana",
+    "privacy",
+    "zk-snarks",
+    "agent",
+    "payments"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@coral-xyz/anchor": "^0.31.0",
+    "@solana/web3.js": "^1.87.0"
+  },
+  "dependencies": {
+    "@noble/ciphers": "^2.1.1",
+    "@noble/hashes": "^2.0.1",
+    "@solana/spl-token": "^0.4.14",
+    "@types/better-sqlite3": "^7.6.13",
+    "better-sqlite3": "^12.8.0",
+    "bs58": "^6.0.0",
+    "circomlibjs": "^0.1.7",
+    "poseidon-lite": "^0.3.0",
+    "snarkjs": "^0.7.0",
+    "tweetnacl": "^1.0.3"
+  },
+  "devDependencies": {
+    "@coral-xyz/anchor": "^0.31.1",
+    "@solana/web3.js": "^1.98.4",
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^25.5.0",
+    "anchor-bankrun": "^0.5.0",
+    "chai": "^4.3.10",
+    "mocha": "^11.7.5",
+    "solana-bankrun": "^0.4.0",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "@snap-protocol/agent-kit-tool",
+  "version": "0.1.0",
+  "description": "SNAP tool integration for Solana Agent Kit",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "npx tsx node_modules/.bin/mocha -t 60000 tests/**/*.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "solana",
+    "agent",
+    "privacy",
+    "zk-snarks",
+    "snap"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@snap-protocol/sdk": "^0.1.0",
+    "solana-agent-kit": "^2.0.10"
+  },
+  "dependencies": {
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@coral-xyz/anchor": "^0.31.1",
+    "@snap-protocol/sdk": "file:../sdk-package",
+    "@solana/web3.js": "^1.98.4",
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^25.5.0",
+    "anchor-bankrun": "^0.5.0",
+    "chai": "^4.3.10",
+    "mocha": "^11.7.5",
+    "solana-bankrun": "^0.4.0",
+    "solana-agent-kit": "^2.0.10",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
+  }
+}

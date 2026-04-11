@@ -1,0 +1,15 @@
+{
+  "pools": ["8P7oho4YD6QPsVusD8bwRejgJK3EXYw9wV3dmcE2bFQT"],
+  "relayerAddress": "",
+  "pollIntervalMs": 10000,
+  "alerts": {
+    "webhookUrl": "",
+    "emailTo": "",
+    "thresholds": {
+      "depositsPerFiveMinutes": 20,
+      "withdrawalsPerMinute": 10,
+      "relayerBalanceWarning": 500000000,
+      "relayerBalanceCritical": 100000000
+    }
+  }
+}
