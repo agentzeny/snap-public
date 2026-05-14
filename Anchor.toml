@@ -5,10 +5,10 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-agent_privacy_pool = "AB4LhsmXkPQE97mHX2eLuX9AR43yzjWoNjCB6Bevi7M3"
+agent_privacy_pool = "9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS"
 
 [programs.devnet]
-agent_privacy_pool = "AB4LhsmXkPQE97mHX2eLuX9AR43yzjWoNjCB6Bevi7M3"
+agent_privacy_pool = "9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS"
 
 [registry]
 url = "https://api.apr.dev"
@@ -20,3 +20,6 @@ wallet = "~/.config/solana/id.json"
 [scripts]
 test = "npx tsx node_modules/.bin/mocha --exit -t 1000000 tests/**/*.ts"
 demo-test = "SNAP_DEMO=1 npx tsx node_modules/.bin/mocha --exit -t 1000000 tests/pool.test.ts"
+
+[programs.mainnet]
+agent_privacy_pool = "9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS"

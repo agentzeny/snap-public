@@ -1,6 +1,6 @@
 # SNAP Threat Model
 
-> Status: threat-model notes for the SNAP pre-audit pilot. The residual risks described here should be assumed active until audit and broader governance hardening are complete.
+> Status: threat-model notes for the SNAP limited release. The residual risks described here should be assumed active until audit and broader governance hardening are complete.
 
 ## Scope And Trust Assumptions
 
@@ -78,9 +78,9 @@ Residual risk:
 
 ## Attack: Pool Draining
 
-### Trusted setup exploitation
+### Proving-parameter compromise
 
-This is the highest-severity protocol risk. If the contributor who generated `withdraw_final.zkey` or `withdraw_20_final.zkey` retained toxic waste, they could forge proofs that satisfy the on-chain verifier without knowing a legitimate note witness.
+This is the highest-severity protocol risk. If the operator that generated `withdraw_final.zkey` or `withdraw_20_final.zkey` retained toxic waste, they could forge proofs that satisfy the on-chain verifier without knowing a legitimate note witness.
 
 If that happens, the following instructions become drainable:
 
@@ -91,11 +91,11 @@ If that happens, the following instructions become drainable:
 - `withdraw_zk_spl`
 - `withdraw_zk_relayed_spl`
 
-Those instructions correctly enforce root membership, recipient binding, and nullifier uniqueness given an honest proof system. They cannot defend against a forged proof accepted by the trusted setup itself.
+Those instructions correctly enforce root membership, recipient binding, and nullifier uniqueness given an honest proof system. They cannot defend against a forged proof accepted by compromised proving parameters.
 
 Mitigation required before mainnet:
 
-- replace the single-contributor setup with a multi-party ceremony and public transcripts, or
+- replace the current zkey generation flow with a public multi-party parameter-generation process and transcripts, or
 - move to a proof system without per-circuit toxic waste
 
 Residual risk until then:

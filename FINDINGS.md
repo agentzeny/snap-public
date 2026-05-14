@@ -48,7 +48,7 @@ SNAP is a proof-of-concept protocol enabling private agent-to-agent payments on 
 | Anchor | 0.31.1 | Program framework, testing harness |
 | Rust | 1.94.0 | Program compilation |
 | circom | 2.2.3 | ZK circuit compilation |
-| snarkjs | 0.7.6 | Proof generation, trusted setup |
+| snarkjs | 0.7.6 | Proof generation, proving-key generation |
 | Node.js | 22.22.0 | SDK, tests, agent scripts |
 | TypeScript | 6.0.2 | Type system |
 
@@ -227,14 +227,14 @@ pool.commitments[idx] = commitment;
 - **Recipient binding (Path B):** The ZK proof includes the recipient pubkey as a public input, preventing proof front-running.
 - **PDA authority:** The vault PDA can only be debited by the program, not by arbitrary signers.
 
-### What is NOT production-safe
+### Open Hardening Gaps
 
 | Gap | Risk | Fix |
 |-----|------|-----|
 | No Merkle root validation in `withdraw_zk` | An attacker could submit a proof against a fabricated root | Store root history on-chain; verify `root` matches a known root |
 | Fixed-size arrays (`MAX_COMMITMENTS = 16`) | Pool fills after 16 deposits | Use dynamic `Vec` with account realloc, or sharded accounts |
 | No access control on `withdraw` | Anyone can call withdraw if they know the secret | In Path B this is fine (proof is required); Path A should be deprecated |
-| Demo trusted setup | The zkey ceremony had one contributor | Production needs multi-party ceremony or transparent setup (PLONK/STARK) |
+| Zkey generation provenance | Current proving parameters were generated outside a public multi-party transcript | Before higher caps, use a public multi-party parameter-generation process or transparent proving system (PLONK/STARK) |
 | No relayer | Withdrawal transaction reveals the recipient's IP/wallet as the fee payer | Add relayer that submits the TX on behalf of the recipient |
 | Single denomination | Only 0.1 SOL deposits | Support multiple pool instances with different denominations |
 | Off-chain Merkle tree | The program doesn't maintain the tree; clients must reconstruct it | Store tree incrementally on-chain, or use an indexer |
@@ -312,10 +312,10 @@ agent-privacy-pool/
 - Multiple denomination pools (0.01, 0.1, 1, 10 SOL)
 - Batch deposit/withdraw (multiple operations per TX)
 - Lookup tables for account compression
-- Consider PLONK for transparent setup (no trusted ceremony)
+- Consider PLONK for transparent proving (no per-circuit toxic waste)
 
 ### Phase 5: Audit and Mainnet (months)
 - Formal verification of circuit constraints
-- Multi-party trusted setup ceremony (if staying with Groth16)
+- Public multi-party parameter-generation process (if staying with Groth16)
 - Professional smart contract audit
 - Mainnet deployment with governance controls

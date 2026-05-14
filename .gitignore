@@ -23,6 +23,8 @@ relayer-mainnet.db
 relayer-devnet.db
 .snap/
 mainnet-seed-notes/
+mainnet-deployment.json
+mainnet-pools.json
 
 # Large local proving/tooling inputs
 build/*.ptau
@@ -38,3 +40,6 @@ devnet-results/
 adversarial-results/
 stress-results/
 docs/COMPETITOR_MARKET_RESEARCH_*.md
+snap-relayer.sqlite
+snap-relayer.sqlite-shm
+snap-relayer.sqlite-wal

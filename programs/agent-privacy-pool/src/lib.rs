@@ -18,7 +18,7 @@ use verifying_key_20::{
     VK_DELTA_G2 as VK20_DELTA_G2, VK_GAMMA_G2 as VK20_GAMMA_G2, VK_IC as VK20_IC,
 };
 
-declare_id!("AB4LhsmXkPQE97mHX2eLuX9AR43yzjWoNjCB6Bevi7M3");
+declare_id!("9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS");
 
 const LEGACY_TREE_DEPTH: usize = 10;
 const MAX_TREE_DEPTH: usize = 20;

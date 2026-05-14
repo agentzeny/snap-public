@@ -2,7 +2,7 @@
 
 Shielded agent-to-agent payments on Solana with automatic Groth16 proof generation.
 
-> Status: `snap-solana-sdk` is for the SNAP pre-audit pilot. It is not post-audit production software.
+> Status: `snap-solana-sdk` is for the SNAP limited release. It is not audited production software.
 
 ## Quick Start (Devnet)
 
@@ -42,10 +42,10 @@ const tx = await recipientSnap.withdraw(POOL, restored, recipientKeypair);
 
 | Field | Value |
 |-------|-------|
-| Program ID | `AB4LhsmXkPQE97mHX2eLuX9AR43yzjWoNjCB6Bevi7M3` |
+| Program ID | `9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS` |
 | Pool (0.1 SOL) | `8P7oho4YD6QPsVusD8bwRejgJK3EXYw9wV3dmcE2bFQT` |
 | Network | Solana Devnet |
-| Explorer | [View Program](https://explorer.solana.com/address/AB4LhsmXkPQE97mHX2eLuX9AR43yzjWoNjCB6Bevi7M3?cluster=devnet) |
+| Explorer | [View Program](https://explorer.solana.com/address/9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS?cluster=devnet) |
 
 ## Quick Start
 

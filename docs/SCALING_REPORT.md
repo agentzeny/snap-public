@@ -1,6 +1,6 @@
 # SNAP Scaling Report
 
-> Status: pre-audit pilot scaling evidence. These measurements are useful for capped-pilot planning, but they are not a substitute for production benchmarking on shared infrastructure.
+> Status: limited-release scaling evidence. These measurements are useful for capped-rollout planning, but they are not a substitute for production benchmarking on shared infrastructure.
 
 ## Scope
 

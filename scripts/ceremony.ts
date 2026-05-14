@@ -26,21 +26,27 @@ const R1CS_PATH = path.join(BUILD_DIR, "withdraw_20.r1cs");
 const WASM_PATH = path.join(BUILD_DIR, "withdraw_20_js", "withdraw_20.wasm");
 const INITIAL_ZKEY_PATH = path.join(BUILD_DIR, "withdraw_20_0000.zkey");
 const FINAL_ZKEY_PATH = path.join(BUILD_DIR, "withdraw_20_final.zkey");
-const BUILD_VERIFICATION_KEY_PATH = path.join(BUILD_DIR, "verification_key_20.json");
+const BUILD_VERIFICATION_KEY_PATH = path.join(
+  BUILD_DIR,
+  "verification_key_20.json"
+);
 const PROGRAM_VERIFICATION_KEY_PATH = path.join(
   ROOT_DIR,
   "programs",
   "agent-privacy-pool",
   "src",
-  "verifying_key_20.rs",
+  "verifying_key_20.rs"
 );
 const RELAYER_VERIFICATION_KEY_PATH = path.join(
   RELAYER_ASSETS_DIR,
-  "verification_key_20.json",
+  "verification_key_20.json"
 );
 const SDK_ZKEY_PATH = path.join(SDK_ASSETS_DIR, "withdraw_20_final.zkey");
 const SDK_WASM_PATH = path.join(SDK_ASSETS_DIR, "withdraw_20.wasm");
-const CEREMONY_DOC_PATH = path.join(DOCS_DIR, "CEREMONY.md");
+const PARAMETER_GENERATION_DOC_PATH = path.join(
+  DOCS_DIR,
+  "PARAMETER_GENERATION.md"
+);
 const PTAU_URL =
   "https://storage.googleapis.com/zkevm/ptau/powersOfTau28_hez_final_15.ptau";
 
@@ -56,7 +62,7 @@ function runCommand(
     captureOutput?: boolean;
     acceptedExitCodes?: number[];
     description: string;
-  },
+  }
 ): string {
   const result = spawnSync(command, args, {
     cwd: ROOT_DIR,
@@ -72,7 +78,7 @@ function runCommand(
     fail(
       `Failed while ${options.description}.\n` +
         `${command} ${args.join(" ")}\n` +
-        `${details}`,
+        `${details}`
     );
   }
 
@@ -115,20 +121,19 @@ function sha256(filePath: string): string {
   return createHash("sha256").update(bytes).digest("hex");
 }
 
-function renderCeremonyRecord(input: {
+function renderParameterGenerationRecord(input: {
   date: string;
   constraintCount: string;
   hashes: Record<string, string>;
 }): string {
-  return `# SNAP Trusted Setup Ceremony Record
+  return `# SNAP Parameter Generation Record
 
-## Ceremony Type
-Single-contributor Groth16 ceremony for the SNAP withdraw circuit (depth-20).
+## Scope
+Groth16 proving and verification parameters for the SNAP withdraw circuit (depth-20), generated with supplied entropy.
 
 ## Status
-**Pre-audit pilot ceremony.** This is NOT a multi-party ceremony.
-A multi-party ceremony with public transcripts is planned before
-removing the "pilot" label and increasing pool denomination caps.
+Limited-release proving parameters. These artifacts were not produced through a public multi-party parameter-generation process.
+A public transcript-based process, or a transparent proving system, is required before increasing pool denomination caps.
 
 ## Date
 ${input.date}
@@ -153,17 +158,17 @@ ${input.date}
 ## Process
 1. Circuit compiled with circom 2.2.3
 2. Initial zkey generated from r1cs + ptau
-3. Single contribution with operator-provided entropy
+3. Entropy supplied with snarkjs zkey contribute
 4. Verification key exported
 5. zkey verified against r1cs and ptau
 6. Intermediate zkey (withdraw_20_0000.zkey) securely deleted
 7. Verifying key constants generated for the Rust program
 
 ## Honest Assessment
-- This ceremony has one contributor
+- The current proving parameters were generated outside a public multi-party process
 - There is no independently auditable evidence that toxic waste was destroyed
 - If toxic waste was retained, proofs can be forged and pools drained
-- For a capped pilot with small denominations, this risk is bounded
+- For a capped rollout with small denominations, this risk is bounded
 `;
 }
 
@@ -205,18 +210,24 @@ function regenerateRustVerifyingKey(): void {
     {
       captureOutput: true,
       description: "generating the Rust verifying key constants",
-    },
+    }
   );
 
   writeFileSync(PROGRAM_VERIFICATION_KEY_PATH, rustConstants);
 }
 
 async function main(): Promise<void> {
-  console.log("SNAP Groth16 Trusted Setup — Solo Ceremony");
+  console.log("SNAP Groth16 Parameter Generation");
   console.log("");
-  console.log("This will generate the depth-20 proving and verification artifacts.");
-  console.log("You will be prompted by snarkjs for random entropy during the contribution step.");
-  console.log("The intermediate zkey contains toxic-waste-sensitive state and will be securely deleted.");
+  console.log(
+    "This will generate the depth-20 proving and verification artifacts."
+  );
+  console.log(
+    "You will be prompted by snarkjs for random entropy during the contribution step."
+  );
+  console.log(
+    "The intermediate zkey contains toxic-waste-sensitive state and will be securely deleted."
+  );
   console.log("");
 
   mkdirSync(BUILD_DIR, { recursive: true });
@@ -242,11 +253,13 @@ async function main(): Promise<void> {
   runCommand(
     "circom",
     [CIRCUIT_PATH, "--r1cs", "--wasm", "--sym", "--output", BUILD_DIR],
-    { description: "compiling the depth-20 circuit" },
+    { description: "compiling the depth-20 circuit" }
   );
 
   if (!existsSync(R1CS_PATH) || !existsSync(WASM_PATH)) {
-    fail("Circuit compilation completed, but the expected depth-20 artifacts are missing.");
+    fail(
+      "Circuit compilation completed, but the expected depth-20 artifacts are missing."
+    );
   }
 
   rmSync(INITIAL_ZKEY_PATH, { force: true });
@@ -258,16 +271,18 @@ async function main(): Promise<void> {
   runCommand(
     "npx",
     ["snarkjs", "groth16", "setup", R1CS_PATH, PTAU_PATH, INITIAL_ZKEY_PATH],
-    { description: "generating the initial zkey" },
+    { description: "generating the initial zkey" }
   );
 
   console.log("");
   console.log("Contribution step starting.");
-  console.log("When snarkjs prompts for entropy, type random characters and submit the prompt.");
+  console.log(
+    "When snarkjs prompts for entropy, type random characters and submit the prompt."
+  );
   runCommand(
     "npx",
     ["snarkjs", "zkey", "contribute", INITIAL_ZKEY_PATH, FINAL_ZKEY_PATH],
-    { description: "contributing operator entropy to the ceremony" },
+    { description: "contributing operator entropy to the zkey" }
   );
 
   console.log("");
@@ -282,7 +297,7 @@ async function main(): Promise<void> {
       FINAL_ZKEY_PATH,
       BUILD_VERIFICATION_KEY_PATH,
     ],
-    { description: "exporting the verification key" },
+    { description: "exporting the verification key" }
   );
 
   console.log("");
@@ -290,7 +305,7 @@ async function main(): Promise<void> {
   runCommand(
     "npx",
     ["snarkjs", "zkey", "verify", R1CS_PATH, PTAU_PATH, FINAL_ZKEY_PATH],
-    { description: "verifying the final zkey" },
+    { description: "verifying the final zkey" }
   );
 
   const r1csInfoOutput = runCommand(
@@ -299,7 +314,7 @@ async function main(): Promise<void> {
     {
       captureOutput: true,
       description: "reading the circuit constraint count",
-    },
+    }
   );
   const constraintCount = parseConstraintCount(r1csInfoOutput);
 
@@ -314,31 +329,34 @@ async function main(): Promise<void> {
     "withdraw_20.r1cs": sha256(R1CS_PATH),
   };
 
-  const record = renderCeremonyRecord({
+  const record = renderParameterGenerationRecord({
     date: new Date().toISOString(),
     constraintCount,
     hashes,
   });
-  writeFileSync(CEREMONY_DOC_PATH, record);
+  writeFileSync(PARAMETER_GENERATION_DOC_PATH, record);
 
   console.log("");
-  console.log("Ceremony complete.");
+  console.log("Parameter generation complete.");
   console.log("");
   console.log("Generated artifacts:");
   console.log(`  ${FINAL_ZKEY_PATH} (${statSync(FINAL_ZKEY_PATH).size} bytes)`);
   console.log(`  ${BUILD_VERIFICATION_KEY_PATH}`);
   console.log(`  ${WASM_PATH}`);
   console.log(`  ${R1CS_PATH}`);
-  console.log(`  ${CEREMONY_DOC_PATH}`);
+  console.log(`  ${PARAMETER_GENERATION_DOC_PATH}`);
   console.log("");
   console.log("Next review steps:");
-  console.log("  1. Review docs/CEREMONY.md.");
+  console.log("  1. Review docs/PARAMETER_GENERATION.md.");
   console.log("  2. Confirm the SHA-256 hashes were written.");
-  console.log("  3. Remember this is a single-contributor pilot ceremony.");
+  console.log(
+    "  3. Review the toxic-waste risk disclosure before raising caps."
+  );
 }
 
 main().catch((error) => {
-  const message = error instanceof Error ? error.stack ?? error.message : String(error);
+  const message =
+    error instanceof Error ? error.stack ?? error.message : String(error);
   console.error(message);
   process.exit(1);
 });

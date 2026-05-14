@@ -1,6 +1,6 @@
-# SNAP Governance — Pilot Phase
+# SNAP Governance — Limited Release
 
-> Status: governance posture for the SNAP pre-audit pilot. This is intentionally simple and single-operator while the protocol remains tightly capped.
+> Status: governance posture for the SNAP limited release. This is intentionally simple while the protocol remains tightly capped.
 
 ## Upgrade Authority
 
@@ -12,7 +12,7 @@ The operator keypair serves as:
 
 - Program upgrade authority
 - Pool authority for fee-capable pools
-- Initial deployer for pilot mainnet pools
+- Initial deployer for capped mainnet pools
 
 This key MUST be backed up in at least two physically separate locations.
 Loss of this key means the program cannot be upgraded and pool treasury
@@ -29,9 +29,9 @@ If a critical vulnerability is discovered:
 
 ### Future Governance
 
-The single-key model is appropriate for a pre-audit pilot with small
+The single-key model is appropriate for a tightly capped release with small
 denominations. Before increasing denomination caps or removing the
-"pilot" label, consider:
+limited-release label, consider:
 
 - Transferring upgrade authority to a multisig such as Squads
 - Transferring pool authority to the same multisig

@@ -1,6 +1,6 @@
 # SNAP Withdraw Circuit Specification
 
-> Status: circuit notes for the SNAP pre-audit pilot. The proving system and trusted setup are still pilot-stage, and the current documentation should not be read as an audit report.
+> Status: circuit notes for the SNAP limited release. The proving system and parameter-generation process are still review-stage, and the current documentation should not be read as an audit report.
 
 ## Circuit Description
 
@@ -95,7 +95,7 @@ A valid proof means the prover knows a `secret` and `nullifier` pair that:
 - produces the public `nullifierHash`
 - is bound to the claimed recipient
 
-Absent a trusted-setup break or a soundness failure in Groth16/Poseidon, a prover cannot forge this without a real note witness.
+Absent toxic-waste compromise or a soundness failure in Groth16/Poseidon, a prover cannot forge this without a real note witness.
 
 ### Zero-Knowledge
 
@@ -114,9 +114,9 @@ Each note deterministically maps to exactly one `nullifierHash`.
 
 Because the program records each used nullifier hash, a note can only be withdrawn once.
 
-## Trusted Setup
+## Parameter Generation
 
-SNAP currently uses a Groth16 trusted setup with two stages:
+SNAP currently uses Groth16 parameter generation with two stages:
 
 1. A public Powers of Tau transcript
 2. A circuit-specific phase 2 zkey generation for `withdraw.circom`
@@ -130,19 +130,19 @@ Current repo state:
 Honest assessment:
 
 - This is a demo-grade setup
-- The repo findings document the phase-2 zkey ceremony as single-contributor
+- The repo findings document that phase-2 zkey generation happened outside a public multi-party transcript
 - There is no independently auditable evidence in this repo that toxic waste was destroyed
-- Auditors should treat the current proving key as trusted by that single contributor
+- Auditors should treat the current proving key as carrying toxic-waste retention risk
 
 For production, SNAP needs either:
 
-- a multi-party ceremony with public transcripts, or
-- a proving system without per-circuit trusted setup
+- a public multi-party parameter-generation process with transcripts, or
+- a proving system without per-circuit toxic waste
 
 ## Known Limitations
 
 - Depth-10 tree limits each pool to 1,024 commitments
 - Pools are fixed denomination
 - BN254 is not post-quantum secure
-- Groth16 requires a trusted setup
-- The current setup is single-contributor demo infrastructure, not audit-grade ceremony process
+- Groth16 introduces toxic-waste risk if parameter generation is compromised
+- The current zkey generation flow is demo infrastructure, not an audit-grade parameter process

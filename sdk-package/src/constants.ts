@@ -3,7 +3,7 @@ import { PublicKey } from "@solana/web3.js";
 import SNAP_IDL_JSON from "./idl.json";
 
 export const SNAP_PROGRAM_ID = new PublicKey(
-  "AB4LhsmXkPQE97mHX2eLuX9AR43yzjWoNjCB6Bevi7M3",
+  "9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS",
 );
 export const DEFAULT_PROGRAM_ID = SNAP_PROGRAM_ID;
 

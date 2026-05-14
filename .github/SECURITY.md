@@ -8,7 +8,7 @@ SNAP is a devnet beta. It has not been audited. Do not use it with real funds.
 
 See `FINDINGS.md` for the current security analysis, including:
 
-- demo trusted setup with a single contributor
+- proving parameters generated outside a public multi-party transcript
 - no formal verification of circuit constraints
 - a demo-grade relayer with no auth or rate limiting
 

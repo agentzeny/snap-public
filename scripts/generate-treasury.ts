@@ -9,8 +9,14 @@ interface TreasuryConfig {
   note: string;
 }
 
-const TREASURY_KEYPAIR_PATH = path.resolve(process.cwd(), "treasury-keypair.json");
-const TREASURY_CONFIG_PATH = path.resolve(process.cwd(), "treasury-config.json");
+const TREASURY_KEYPAIR_PATH = path.resolve(
+  process.cwd(),
+  "treasury-keypair.json"
+);
+const TREASURY_CONFIG_PATH = path.resolve(
+  process.cwd(),
+  "treasury-config.json"
+);
 
 function fail(message: string): never {
   console.error(message);
@@ -21,7 +27,7 @@ function ensureTargetDoesNotExist(targetPath: string): void {
   if (existsSync(targetPath)) {
     fail(
       `Refusing to overwrite existing file: ${targetPath}\n` +
-        "Move it aside or back it up first, then rerun the treasury generator.",
+        "Move it aside or back it up first, then rerun the treasury generator."
     );
   }
 }
@@ -36,7 +42,7 @@ function main(): void {
   writeFileSync(
     TREASURY_KEYPAIR_PATH,
     `${JSON.stringify(secretKey, null, 2)}\n`,
-    { mode: 0o600 },
+    { mode: 0o600 }
   );
 
   try {
@@ -69,11 +75,17 @@ function main(): void {
   console.log(JSON.stringify(secretKey));
   console.log("");
   console.log("Backup instructions:");
-  console.log("  1. Store treasury-keypair.json in at least two physically separate locations.");
+  console.log(
+    "  1. Store treasury-keypair.json in at least two physically separate locations."
+  );
   console.log("  2. Treat the raw secret key bytes as equally sensitive.");
-  console.log("  3. Never commit treasury-keypair.json to git or copy it to a public machine.");
+  console.log(
+    "  3. Never commit treasury-keypair.json to git or copy it to a public machine."
+  );
   console.log("");
-  console.log("Stop here and back up treasury-keypair.json before continuing to the ceremony.");
+  console.log(
+    "Stop here and back up treasury-keypair.json before continuing to parameter generation."
+  );
 }
 
 main();

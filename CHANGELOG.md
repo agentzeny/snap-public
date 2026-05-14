@@ -1,6 +1,20 @@
 # Changelog
 
-## 0.1.0-beta.1 (unreleased)
+## 0.1.0 — Mainnet Limited Release
+
+### Added
+- Mainnet deployment on Solana mainnet-beta
+- Three shielded pools: 0.1 SOL, 1 USDC, 10 USDC
+- Mainnet deployment, pool creation, seeding, and verification scripts
+- Mainnet relayer launcher and dashboard
+- Protocol fee (0.25%) on all fee-capable pool withdrawals
+- Mutable treasury with update_treasury instruction
+
+### Security
+- Limited release. Not audited. Not for large amounts.
+- See FINDINGS.md and docs/THREAT_MODEL.md for full risk assessment.
+
+## 0.1.0-beta.1
 
 ### Added
 
@@ -17,5 +31,5 @@
 
 ### Security
 
-- This is a devnet beta. Not audited. Not production-safe.
+- This is a devnet beta for review and testing. Not audited.
 - See `FINDINGS.md` for the current security analysis and known gaps.

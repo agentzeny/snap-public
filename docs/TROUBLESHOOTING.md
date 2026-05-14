@@ -1,6 +1,6 @@
 # SNAP Troubleshooting
 
-> Status: troubleshooting notes for the SNAP pre-audit pilot. Operational fixes here do not change the pilot-stage security limitations documented elsewhere in the repo.
+> Status: troubleshooting notes for the SNAP limited release. Operational fixes here do not change the review-stage security limitations documented elsewhere in the repo.
 
 ## Common Errors
 

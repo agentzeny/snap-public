@@ -13,7 +13,7 @@ solana balance --url devnet
 
 2. Confirm the target pool and program:
 
-- Program ID: `AB4LhsmXkPQE97mHX2eLuX9AR43yzjWoNjCB6Bevi7M3`
+- Program ID: `9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS`
 - Pool: `8P7oho4YD6QPsVusD8bwRejgJK3EXYw9wV3dmcE2bFQT`
 
 3. Recommended payer minimums:

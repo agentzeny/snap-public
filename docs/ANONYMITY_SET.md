@@ -1,6 +1,6 @@
 # SNAP Anonymity Set Strategy
 
-> Status: guidance for the SNAP pre-audit pilot. Pool caps, acceptable anonymity thresholds, and launch claims should stay conservative until after audit and a stronger ceremony.
+> Status: guidance for the SNAP limited release. Pool caps, acceptable anonymity thresholds, and launch claims should stay conservative until after audit and a stronger proving-parameter process.
 
 ## The Cold Start Problem
 

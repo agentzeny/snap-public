@@ -882,7 +882,7 @@ async function collectDeploymentEvidence(
     "dump",
     "--url",
     "devnet",
-    "AB4LhsmXkPQE97mHX2eLuX9AR43yzjWoNjCB6Bevi7M3",
+    "9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS",
     dumpPath,
   ]);
   const localBinary = fs.readFileSync(path.resolve("target/deploy/agent_privacy_pool.so"));
@@ -1425,7 +1425,7 @@ function loadProgramShowJson(): DeploymentShowJson {
         "devnet",
         "--output",
         "json-compact",
-        "AB4LhsmXkPQE97mHX2eLuX9AR43yzjWoNjCB6Bevi7M3",
+        "9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS",
       ],
       {
         encoding: "utf8",

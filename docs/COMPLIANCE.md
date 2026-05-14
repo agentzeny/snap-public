@@ -1,6 +1,6 @@
 # SNAP Compliance Framework
 
-> Status: pre-audit pilot posture note. This is operational guidance for a capped pilot, not a legal conclusion or a post-audit launch representation.
+> Status: limited-release posture note. This is operational guidance for a capped rollout, not a legal conclusion or a launch representation for an audited deployment.
 
 > Disclaimer: This document is not legal advice. It is a technical posture note and must be reviewed by a crypto-specialized attorney before publication or reliance.
 

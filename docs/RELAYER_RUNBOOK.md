@@ -1,6 +1,6 @@
 # RELAYER_RUNBOOK
 
-> Status: relayer operations guidance for the SNAP pre-audit pilot. Treat any mainnet rollout as tightly capped until audit, broader governance hardening, and more production rehearsal are complete.
+> Status: relayer operations guidance for the SNAP limited release. Treat any mainnet rollout as tightly capped until audit, broader governance hardening, and more production rehearsal are complete.
 
 ## Purpose
 

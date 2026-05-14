@@ -2,7 +2,7 @@
 
 Private agent-to-agent payments on Solana using zero-knowledge proofs.
 
-> Status: SNAP is in a tightly capped pre-audit pilot phase. Do not treat the current codebase or docs as post-audit production guidance.
+> Status: SNAP is in a tightly capped limited-release phase. Do not treat the current codebase or docs as audited deployment guidance.
 
 ## What SNAP Does
 
@@ -31,10 +31,10 @@ import { Connection, Keypair, PublicKey, clusterApiUrl } from "@solana/web3.js";
 import { SNAPClient } from "snap-solana-sdk";
 
 async function main() {
-  const connection = new Connection(clusterApiUrl("devnet"), "confirmed");
+  const connection = new Connection("https://your-rpc-url.com", "confirmed");
   const sender = Keypair.generate();
   const recipient = Keypair.generate();
-  const pool = new PublicKey("8P7oho4YD6QPsVusD8bwRejgJK3EXYw9wV3dmcE2bFQT");
+  const pool = new PublicKey("B8SyffZKt8LABKogWjH9rZcjY5PV2hyYRCbTxxbcrpFf");
 
   const snapA = new SNAPClient(connection, sender);
   const snapB = new SNAPClient(connection, recipient);
@@ -65,13 +65,19 @@ npx tsx examples/relayed-withdrawal.ts
 | Agent Kit Plugin | Solana Agent Kit v2 plugin with `snap_create_pool`, `snap_deposit`, `snap_withdraw`, and `snap_withdraw_private` |
 | Relayer | Express service for gas-abstracted private withdrawals |
 
-## Devnet
+## Mainnet
+
+> This is a limited release. The protocol has not been audited by a third party.
+> Pool denominations are intentionally small. Do not deposit more than you can afford to lose.
 
 | Field | Value |
 |-------|-------|
-| Program ID | `AB4LhsmXkPQE97mHX2eLuX9AR43yzjWoNjCB6Bevi7M3` |
-| Pool (0.1 SOL) | `8P7oho4YD6QPsVusD8bwRejgJK3EXYw9wV3dmcE2bFQT` |
-| Network | Solana Devnet |
+| Program ID | `9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS` |
+| Pool — 0.1 SOL | `B8SyffZKt8LABKogWjH9rZcjY5PV2hyYRCbTxxbcrpFf` |
+| Pool — 1 USDC | `5LeuHrPBgHNhgbCy996MEjcsBk5gNHhVj6AiuuCHZ8od` |
+| Pool — 10 USDC | `ECuHf8kgiWfmL3Q6id4WGBQWvuukhzqvF5vsxuPAKZBv` |
+| Network | Solana mainnet-beta |
+| Protocol fee | 0.25% |
 
 ## Project Structure
 
@@ -103,7 +109,7 @@ cd sdk-package && npm install && npm run build && npm test
 
 ## Security
 
-This is a pre-audit pilot. It is not audited and it is not production-safe. Known risks, protocol limits, and hardening work are documented in `FINDINGS.md`, `docs/CIRCUIT_SPEC.md`, `docs/COMPLIANCE.md`, and `docs/GOVERNANCE.md`.
+This is a limited release intended for review and testing. It is unaudited; known risks, protocol limits, and hardening work are documented in `FINDINGS.md`, `docs/CIRCUIT_SPEC.md`, `docs/COMPLIANCE.md`, and `docs/GOVERNANCE.md`.
 
 ## License
 

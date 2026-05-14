@@ -24,7 +24,7 @@ import {
 } from "@solana/web3.js";
 
 const SNAP_PACKAGE = "snap-solana-sdk";
-const PROGRAM_ID = new PublicKey("AB4LhsmXkPQE97mHX2eLuX9AR43yzjWoNjCB6Bevi7M3");
+const PROGRAM_ID = new PublicKey("9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS");
 const DEVNET_POOL = new PublicKey("8P7oho4YD6QPsVusD8bwRejgJK3EXYw9wV3dmcE2bFQT");
 const WALLET_DIR = join(process.cwd(), ".snap-test-harness");
 const MIN_AGENT_A_BALANCE = Math.round(0.2 * LAMPORTS_PER_SOL);
