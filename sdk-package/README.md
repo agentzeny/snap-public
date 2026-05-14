@@ -4,9 +4,9 @@ Shielded agent-to-agent payments on Solana with automatic Groth16 proof generati
 
 > Status: `snap-solana-sdk` is for the SNAP limited release. It is not audited production software.
 
-## Quick Start (Devnet)
+## Quick Start
 
-SNAP is live on Solana devnet. Try it now:
+SNAP is live on Solana mainnet. Install and try it:
 
 ```bash
 npm install snap-solana-sdk @solana/web3.js @coral-xyz/anchor
@@ -14,18 +14,15 @@ npm install snap-solana-sdk @solana/web3.js @coral-xyz/anchor
 
 ```ts
 import { SNAPClient } from "snap-solana-sdk";
-import { Connection, Keypair, PublicKey, clusterApiUrl } from "@solana/web3.js";
+import { Connection, Keypair, PublicKey } from "@solana/web3.js";
 
-const connection = new Connection(clusterApiUrl("devnet"));
+const connection = new Connection("https://api.mainnet-beta.solana.com");
 const wallet = Keypair.generate();
 
-const snap = new SNAPClient(connection, wallet, {
-  maxDepositDelayMs: 10000,
-  maxWithdrawDelayMs: 15000,
-});
+const snap = new SNAPClient(connection, wallet);
 
 // Deposit into the shielded pool
-const POOL = new PublicKey("8P7oho4YD6QPsVusD8bwRejgJK3EXYw9wV3dmcE2bFQT");
+const POOL = new PublicKey("B8SyffZKt8LABKogWjH9rZcjY5PV2hyYRCbTxxbcrpFf");
 const note = await snap.deposit(POOL);
 
 // Share `note` with the recipient off-chain
@@ -38,36 +35,16 @@ const recipientSnap = new SNAPClient(connection, recipientKeypair);
 const tx = await recipientSnap.withdraw(POOL, restored, recipientKeypair);
 ```
 
-### Devnet Details
+### Mainnet Details
 
 | Field | Value |
 |-------|-------|
 | Program ID | `9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS` |
-| Pool (0.1 SOL) | `8P7oho4YD6QPsVusD8bwRejgJK3EXYw9wV3dmcE2bFQT` |
-| Network | Solana Devnet |
-| Explorer | [View Program](https://explorer.solana.com/address/9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS?cluster=devnet) |
-
-## Quick Start
-
-```ts
-import { Connection, Keypair, PublicKey } from "@solana/web3.js";
-import { Wallet } from "@coral-xyz/anchor";
-import { SNAPClient } from "snap-solana-sdk";
-
-const connection = new Connection("http://127.0.0.1:8899", "confirmed");
-const wallet = Wallet.local();
-const snap = new SNAPClient(connection, wallet);
-
-const pool = await snap.createPool(0.1);
-const note = await snap.deposit(pool);
-const serialized = SNAPClient.serializeNote(note);
-
-// Send `serialized` to the recipient through a private channel.
-
-const recipient = Keypair.generate();
-const txSig = await snap.withdraw(pool, SNAPClient.deserializeNote(serialized), recipient);
-console.log("Withdraw tx:", txSig);
-```
+| 0.1 SOL pool | `B8SyffZKt8LABKogWjH9rZcjY5PV2hyYRCbTxxbcrpFf` |
+| 1 USDC pool | `5LeuHrPBgHNhgbCy996MEjcsBk5gNHhVj6AiuuCHZ8od` |
+| 10 USDC pool | `ECuHf8kgiWfmL3Q6id4WGBQWvuukhzqvF5vsxuPAKZBv` |
+| Network | Solana Mainnet |
+| Explorer | [View Program](https://explorer.solana.com/address/9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS) |
 
 ## Public API
 
