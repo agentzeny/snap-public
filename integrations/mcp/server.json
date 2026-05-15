@@ -1,0 +1,44 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.agentzeny/snap-private-payments",
+  "description": "Private agent-to-agent payments on Solana mainnet using Groth16 zero-knowledge proofs. Deposit into shielded pools, withdraw with ZK proofs, list pools, and estimate fees.",
+  "title": "SNAP Protocol",
+  "websiteUrl": "https://agentzeny.ai",
+  "repository": {
+    "url": "https://github.com/agentzeny/snap-public",
+    "source": "github",
+    "subfolder": "integrations/mcp"
+  },
+  "version": "0.1.1",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "snap-solana-sdk",
+      "version": "0.1.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "SNAP_RPC_URL",
+          "description": "Solana RPC endpoint URL",
+          "isRequired": true,
+          "isSecret": false
+        },
+        {
+          "name": "SNAP_POOL_ADDRESS",
+          "description": "Default shielded pool address",
+          "isRequired": true,
+          "isSecret": false
+        },
+        {
+          "name": "SNAP_RELAYER_URL",
+          "description": "Optional relayer URL for private withdrawals",
+          "isRequired": false,
+          "isSecret": false
+        }
+      ]
+    }
+  ]
+}
