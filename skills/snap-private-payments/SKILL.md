@@ -9,13 +9,12 @@ tags:
   - payments
   - agents
 metadata:
-  openclaw:
-    env:
-      - SNAP_POOL_ADDRESS
-      - SNAP_RPC_URL
-    optional_env:
-      - SNAP_RELAYER_URL
-    install: npm install snap-solana-sdk
+  author: agentzeny
+  website: https://agentzeny.ai
+  github: https://github.com/agentzeny/snap-public
+  install: npm install snap-solana-sdk
+  env: SNAP_POOL_ADDRESS, SNAP_RPC_URL
+  optional_env: SNAP_RELAYER_URL
 ---
 
 # SNAP Private Payment Skill
