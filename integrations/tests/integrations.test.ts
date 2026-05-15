@@ -2,10 +2,14 @@ import { expect } from "chai";
 import { Keypair, PublicKey } from "@solana/web3.js";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { InMemoryTransport } from "@modelcontextprotocol/sdk/inMemory.js";
+import { handleHermesSnap } from "../hermes/snap-handler";
+import { createSNAPToolsFromClient } from "../langchain/snap-tool";
 import { handleCommand } from "../openclaw/snap-skill";
 import {
+  createSnapEstimateFeeAction,
   createSnapDepositAction,
   createSnapBalanceAction,
+  createSnapListPoolsAction,
   createSnapPlugin,
   createSnapWithdrawAction,
 } from "../elizaos/snap-plugin";
@@ -15,11 +19,17 @@ import type { SnapClientLike } from "../shared/snap-client";
 
 class StubSnapClient implements SnapClientLike {
   lastDeposit: { amount?: number; pool: string } | null = null;
-  lastWithdraw:
-    | { note: unknown; pool: string; recipient: string; relayerUrl?: string }
-    | null = null;
+  lastWithdraw: {
+    note: unknown;
+    pool: string;
+    recipient: string;
+    relayerUrl?: string;
+  } | null = null;
 
-  async deposit(pool: PublicKey, amount?: number): Promise<{ depositIndex: number }> {
+  async deposit(
+    pool: PublicKey,
+    amount?: number
+  ): Promise<{ depositIndex: number }> {
     this.lastDeposit = { pool: pool.toBase58(), amount };
     return { depositIndex: 7 };
   }
@@ -27,7 +37,7 @@ class StubSnapClient implements SnapClientLike {
   async withdraw(
     pool: PublicKey,
     note: unknown,
-    recipient: PublicKey,
+    recipient: PublicKey
   ): Promise<string> {
     this.lastWithdraw = {
       pool: pool.toBase58(),
@@ -41,7 +51,7 @@ class StubSnapClient implements SnapClientLike {
     pool: PublicKey,
     note: unknown,
     recipient: PublicKey,
-    relayerUrl?: string,
+    relayerUrl?: string
   ): Promise<{ txSignature: string; fee: number; recipientReceived?: number }> {
     this.lastWithdraw = {
       pool: pool.toBase58(),
@@ -53,6 +63,28 @@ class StubSnapClient implements SnapClientLike {
       txSignature: "relayed-signature",
       fee: 0.0005,
       recipientReceived: 0.0995,
+    };
+  }
+
+  async estimateWithdrawal() {
+    return {
+      depositAmount: 0.1,
+      protocolFee: 0.00025,
+      relayerFee: 0,
+      recipientAmount: 0.09975,
+      totalFee: 0.00025,
+      protocolFeeBps: 25,
+    };
+  }
+
+  async estimateRelayedWithdrawal() {
+    return {
+      depositAmount: 0.1,
+      protocolFee: 0.00025,
+      relayerFee: 0.0005,
+      recipientAmount: 0.09925,
+      totalFee: 0.00075,
+      protocolFeeBps: 25,
     };
   }
 
@@ -80,13 +112,10 @@ describe("Framework integrations", () => {
     const snapClient = new StubSnapClient();
     const pool = Keypair.generate().publicKey.toBase58();
 
-    const message = await handleCommand(
-      "deposit 0.1 SOL into SNAP pool",
-      {
-        poolAddress: pool,
-        snapClient,
-      },
-    );
+    const message = await handleCommand("deposit 0.1 SOL into SNAP pool", {
+      poolAddress: pool,
+      snapClient,
+    });
 
     expect(snapClient.lastDeposit).to.deep.equal({
       pool,
@@ -100,14 +129,35 @@ describe("Framework integrations", () => {
     const pool = Keypair.generate().publicKey.toBase58();
 
     try {
-      await handleCommand(`withdraw to ${Keypair.generate().publicKey.toBase58()}`, {
-        poolAddress: pool,
-        snapClient,
-      });
+      await handleCommand(
+        `withdraw to ${Keypair.generate().publicKey.toBase58()}`,
+        {
+          poolAddress: pool,
+          snapClient,
+        }
+      );
       throw new Error("Expected missing note error");
     } catch (error) {
       expect((error as Error).message).to.include("requires a note");
     }
+  });
+
+  it("lists OpenClaw pools and estimates fees", async () => {
+    const snapClient = new StubSnapClient();
+    const pool = Keypair.generate().publicKey.toBase58();
+
+    const pools = await handleCommand("list SNAP pools", {
+      poolAddress: pool,
+      snapClient,
+    });
+    const estimate = await handleCommand("estimate SNAP withdrawal fee", {
+      poolAddress: pool,
+      snapClient,
+      relayerUrl: "http://localhost:3000",
+    });
+
+    expect(pools).to.include(pool);
+    expect(estimate).to.include("Total fee: 0.00075 SOL");
   });
 
   it("routes ElizaOS balance action parameters into the SDK", async () => {
@@ -128,15 +178,47 @@ describe("Framework integrations", () => {
       {} as never,
       undefined,
       {},
-      undefined,
+      undefined
     );
 
-    expect(plugin.actions).to.have.length(3);
+    expect(plugin.actions).to.have.length(5);
     expect(result?.success).to.equal(true);
     expect(result?.text).to.equal("Private SNAP balance: 0.1.");
   });
 
-  it("returns clear ElizaOS errors for missing deposit amount and withdraw context", async () => {
+  it("routes ElizaOS list and estimate actions", async () => {
+    const snapClient = new StubSnapClient();
+    const pool = Keypair.generate().publicKey.toBase58();
+    const listAction = createSnapListPoolsAction({
+      poolAddress: pool,
+      snapClient,
+    });
+    const estimateAction = createSnapEstimateFeeAction({
+      poolAddress: pool,
+      snapClient,
+      relayerUrl: "http://localhost:3000",
+    });
+
+    const listResult = await listAction.handler(
+      {} as never,
+      {} as never,
+      undefined,
+      {},
+      undefined
+    );
+    const estimateResult = await estimateAction.handler(
+      {} as never,
+      {} as never,
+      undefined,
+      {},
+      undefined
+    );
+
+    expect(listResult?.text).to.include(pool);
+    expect(estimateResult?.text).to.include("Recipient receives: 0.09925 SOL");
+  });
+
+  it("returns clear ElizaOS errors for invalid deposit amount and withdraw context", async () => {
     const snapClient = new StubSnapClient();
     const depositAction = createSnapDepositAction({
       poolAddress: Keypair.generate().publicKey.toBase58(),
@@ -152,13 +234,13 @@ describe("Framework integrations", () => {
         {} as never,
         {} as never,
         undefined,
-        {},
-        undefined,
+        { parameters: { amount: 0 } },
+        undefined
       );
       throw new Error("Expected invalid deposit amount");
     } catch (error) {
       expect((error as Error).message).to.equal(
-        "SNAP_DEPOSIT requires a positive numeric amount",
+        "SNAP_DEPOSIT requires a positive numeric amount"
       );
     }
 
@@ -168,11 +250,13 @@ describe("Framework integrations", () => {
         {} as never,
         undefined,
         {},
-        undefined,
+        undefined
       );
       throw new Error("Expected missing withdraw context");
     } catch (error) {
-      expect((error as Error).message).to.include("requires both a note and recipientAddress");
+      expect((error as Error).message).to.include(
+        "requires both a note and recipientAddress"
+      );
     }
   });
 
@@ -181,19 +265,23 @@ describe("Framework integrations", () => {
     const provider = new SNAPActionProvider(snapClient);
     const pool = Keypair.generate().publicKey.toBase58();
     const recipient = Keypair.generate().publicKey.toBase58();
-    const actions = provider.getActions(undefined as never);
+    const actions = provider.getActions();
     const withdrawPrivate = actions.find(
-      (action) => action.name === "snap_withdraw_private",
+      (action) => action.name === "snap_withdraw_private"
     );
 
     expect(actions.map((action) => action.name)).to.include("snap_deposit");
+    expect(actions.map((action) => action.name)).to.include("snap_list_pools");
+    expect(actions.map((action) => action.name)).to.include(
+      "snap_estimate_fee"
+    );
     expect(() =>
       withdrawPrivate?.schema.parse({
         pool,
         recipient,
         note: "note",
         relayerUrl: "http://localhost:3000",
-      }),
+      })
     ).to.not.throw();
 
     const result = await withdrawPrivate!.invoke({
@@ -212,11 +300,27 @@ describe("Framework integrations", () => {
     expect(result).to.include("relayed-signature");
   });
 
+  it("estimates AgentKit fees with provider defaults", async () => {
+    const snapClient = new StubSnapClient();
+    const pool = Keypair.generate().publicKey.toBase58();
+    const provider = new SNAPActionProvider(snapClient, {
+      poolAddress: pool,
+      relayerUrl: "http://localhost:3000",
+    });
+    const estimate = provider
+      .getActions()
+      .find((action) => action.name === "snap_estimate_fee");
+
+    const result = await estimate!.invoke({});
+
+    expect(result).to.include("Total fee: 0.00075 SOL");
+  });
+
   it("returns a clear AgentKit relayer error when no relayer URL is configured", async () => {
     const snapClient = new StubSnapClient();
     const provider = new SNAPActionProvider(snapClient);
     const withdrawPrivate = provider
-      .getActions(undefined as never)
+      .getActions()
       .find((action) => action.name === "snap_withdraw_private");
 
     try {
@@ -228,7 +332,7 @@ describe("Framework integrations", () => {
       throw new Error("Expected missing relayer URL error");
     } catch (error) {
       expect((error as Error).message).to.equal(
-        "snap_withdraw_private requires relayerUrl or a provider default",
+        "snap_withdraw_private requires relayerUrl or a provider default"
       );
     }
   });
@@ -245,7 +349,8 @@ describe("Framework integrations", () => {
       name: "snap-test-client",
       version: "1.0.0",
     });
-    const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+    const [clientTransport, serverTransport] =
+      InMemoryTransport.createLinkedPair();
 
     await Promise.all([
       server.connect(serverTransport),
@@ -254,17 +359,92 @@ describe("Framework integrations", () => {
 
     const tools = await client.listTools();
     const response = await client.callTool({
-      name: "snap_pool_info",
+      name: "snap_list_pools",
       arguments: {},
     });
+    const estimate = await client.callTool({
+      name: "snap_estimate_fee",
+      arguments: {
+        relayerUrl: "http://localhost:3000",
+      },
+    });
 
-    expect(tools.tools.map((tool) => tool.name)).to.include("snap_balance");
-    expect(response.content[0]).to.have.property("type", "text");
-    expect((response.content[0] as { text: string }).text).to.include(
-      "\"depositAmount\": 0.1",
+    expect(tools.tools.map((tool) => tool.name)).to.include("snap_list_pools");
+    expect(tools.tools.map((tool) => tool.name)).to.include("snap_deposit");
+    expect(tools.tools.map((tool) => tool.name)).to.include("snap_withdraw");
+    expect(tools.tools.map((tool) => tool.name)).to.include(
+      "snap_estimate_fee"
     );
+    const responseContent = response.content as Array<{ text: string }>;
+    const estimateContent = estimate.content as Array<{ text: string }>;
+    expect(responseContent[0]).to.have.property("type", "text");
+    expect(responseContent[0].text).to.include(pool);
+    expect(estimateContent[0].text).to.include('"totalFee": 0.00075');
 
     await client.close();
     await server.close();
+  });
+
+  it("exposes LangChain tools that validate and call the SDK", async () => {
+    const snapClient = new StubSnapClient();
+    const pool = Keypair.generate().publicKey.toBase58();
+    const recipient = Keypair.generate().publicKey.toBase58();
+    const tools = createSNAPToolsFromClient(snapClient, {
+      poolAddress: pool,
+      relayerUrl: "http://localhost:3000",
+    });
+
+    const names = tools.map((tool) => tool.name);
+    const deposit = await tools
+      .find((tool) => tool.name === "snap_deposit")!
+      .invoke({ amount: 0.1 });
+    const withdraw = await tools
+      .find((tool) => tool.name === "snap_withdraw")!
+      .invoke({ note: { demo: true }, recipient });
+    const estimate = await tools
+      .find((tool) => tool.name === "snap_estimate_fee")!
+      .invoke({});
+
+    expect(names).to.deep.equal([
+      "snap_list_pools",
+      "snap_deposit",
+      "snap_withdraw",
+      "snap_estimate_fee",
+    ]);
+    expect(deposit).to.include('"depositIndex": 7');
+    expect(withdraw).to.include('"transaction": "relayed-signature"');
+    expect(estimate).to.include('"totalFee": 0.00075');
+  });
+
+  it("handles Hermes SNAP commands through the shared SDK interface", async () => {
+    const snapClient = new StubSnapClient();
+    const pool = Keypair.generate().publicKey.toBase58();
+    const recipient = Keypair.generate().publicKey.toBase58();
+
+    const pools = await handleHermesSnap(
+      { action: "list_pools" },
+      { poolAddress: pool, snapClient }
+    );
+    const deposit = await handleHermesSnap(
+      { action: "deposit", amount: 0.1 },
+      { poolAddress: pool, snapClient }
+    );
+    const withdraw = await handleHermesSnap(
+      {
+        action: "withdraw",
+        note: { demo: true },
+        recipientAddress: recipient,
+      },
+      { poolAddress: pool, relayerUrl: "http://localhost:3000", snapClient }
+    );
+    const estimate = await handleHermesSnap(
+      { action: "estimate_fee" },
+      { poolAddress: pool, relayerUrl: "http://localhost:3000", snapClient }
+    );
+
+    expect(JSON.stringify(pools)).to.include(pool);
+    expect(deposit.depositIndex).to.equal(7);
+    expect(withdraw.transaction).to.equal("relayed-signature");
+    expect(estimate.totalFee).to.equal(0.00075);
   });
 });

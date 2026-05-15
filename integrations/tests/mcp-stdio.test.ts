@@ -18,13 +18,26 @@ describe("SNAP MCP stdio", function () {
     try {
       const tools = await client.listTools();
       const response = await client.callTool({
-        name: "snap_pool_info",
+        name: "snap_list_pools",
         arguments: {},
       });
+      const estimate = await client.callTool({
+        name: "snap_estimate_fee",
+        arguments: {
+          relayerUrl: "http://localhost:3000",
+        },
+      });
 
-      expect(tools.tools.map((tool) => tool.name)).to.include("snap_withdraw_private");
+      const toolNames = tools.tools.map((tool) => tool.name);
+      expect(toolNames).to.include("snap_list_pools");
+      expect(toolNames).to.include("snap_deposit");
+      expect(toolNames).to.include("snap_withdraw");
+      expect(toolNames).to.include("snap_estimate_fee");
       expect(response.isError).to.not.equal(true);
-      expect(extractText(response)).to.include("\"depositAmount\": 0.25");
+      expect(extractText(response)).to.include(
+        "B8SyffZKt8LABKogWjH9rZcjY5PV2hyYRCbTxxbcrpFf"
+      );
+      expect(extractText(estimate)).to.include('"totalFee": 0.001125');
     } finally {
       await client.close();
       await transport.close();
@@ -62,7 +75,9 @@ describe("SNAP MCP stdio", function () {
       expect(missingRelayer.isError).to.equal(true);
       expect(extractText(missingRelayer)).to.include("requires a relayer URL");
       expect(missingViewingKey.isError).to.equal(true);
-      expect(extractText(missingViewingKey)).to.include("requires a viewing key");
+      expect(extractText(missingViewingKey)).to.include(
+        "requires a viewing key"
+      );
     } finally {
       await client.close();
       await transport.close();
@@ -70,9 +85,7 @@ describe("SNAP MCP stdio", function () {
   });
 });
 
-async function connectMcpClient(
-  envOverrides: Record<string, string>,
-): Promise<{
+async function connectMcpClient(envOverrides: Record<string, string>): Promise<{
   client: Client;
   transport: StdioClientTransport;
 }> {
@@ -96,11 +109,17 @@ async function connectMcpClient(
   return { client, transport };
 }
 
-function extractText(result: {
-  content?: Array<{ type: string; text?: string }>;
-}): string {
-  return result.content
-    ?.filter((entry) => entry.type === "text" && typeof entry.text === "string")
+function extractText(result: unknown): string {
+  const content = (result as { content?: unknown }).content;
+  if (!Array.isArray(content)) {
+    return "";
+  }
+
+  return content
+    .filter((entry): entry is { type: string; text: string } => {
+      const maybeEntry = entry as { type?: unknown; text?: unknown };
+      return maybeEntry.type === "text" && typeof maybeEntry.text === "string";
+    })
     .map((entry) => entry.text)
-    .join("\n") ?? "";
+    .join("\n");
 }

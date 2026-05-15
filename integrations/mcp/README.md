@@ -1,20 +1,56 @@
-# SNAP MCP Live Startup
+# SNAP MCP Server
 
-This is the live reference path for running the SNAP MCP server against a real relayer.
+MCP server for SNAP private payments. It targets `@modelcontextprotocol/sdk` `1.28.0` and uses stdio transport.
 
-## Required Environment
+## Tools
 
-Start from [`integrations/mcp/.env.example`](./.env.example) and set:
+- `snap_list_pools`
+- `snap_deposit`
+- `snap_withdraw`
+- `snap_estimate_fee`
+
+The server also keeps `snap_withdraw_private`, `snap_pool_info`, and `snap_balance` as compatibility helpers for existing local flows.
+
+## Claude Code Config
+
+```json
+{
+  "mcpServers": {
+    "snap": {
+      "command": "npx",
+      "args": ["tsx", "/path/to/agent-privacy-pool/integrations/mcp/snap-mcp-server.ts"],
+      "env": {
+        "SNAP_RPC_URL": "https://api.mainnet-beta.solana.com",
+        "SNAP_POOL_ADDRESS": "B8SyffZKt8LABKogWjH9rZcjY5PV2hyYRCbTxxbcrpFf",
+        "SNAP_RELAYER_URL": "https://your-relayer.example"
+      }
+    }
+  }
+}
+```
+
+For deterministic local transport tests, set `SNAP_MCP_STUB_MODE=1`.
+
+## Environment
+
+Start from [`integrations/mcp/.env.example`](./.env.example):
 
 - `SNAP_RPC_URL`
 - `SNAP_POOL_ADDRESS`
 - `SNAP_RELAYER_URL`
 - `SNAP_MCP_NOTE`
-- `SNAP_MCP_VIEWING_KEY_JSON` if you want `snap_balance`
+- `SNAP_MCP_VIEWING_KEY_JSON`
+- `SNAP_MCP_STUB_MODE`
 
-The MCP server uses the live SDK path unless `SNAP_MCP_STUB_MODE=1` is set.
+`SNAP_MCP_NOTE` should be a serialized note returned by `SNAPClient.serializeNote(...)`.
 
-## Example Startup
+## Mainnet Pools
+
+- `0.1 SOL`: `B8SyffZKt8LABKogWjH9rZcjY5PV2hyYRCbTxxbcrpFf`
+- `1 USDC`: `5LeuHrPBgHNhgbCy996MEjcsBk5gNHhVj6AiuuCHZ8od`
+- `10 USDC`: `ECuHf8kgiWfmL3Q6id4WGBQWvuukhzqvF5vsxuPAKZBv`
+
+## Run
 
 ```bash
 cd /path/to/agent-privacy-pool
@@ -24,21 +60,8 @@ set +a
 npx tsx integrations/mcp/snap-mcp-server.ts
 ```
 
-## Live Devnet Example
+Smoke test:
 
 ```bash
-SNAP_RPC_URL=https://api.devnet.solana.com \
-SNAP_POOL_ADDRESS=8P7oho4YD6QPsVusD8bwRejgJK3EXYw9wV3dmcE2bFQT \
-SNAP_RELAYER_URL=http://127.0.0.1:3000 \
-SNAP_MCP_NOTE='<serialized note>' \
-npx tsx integrations/mcp/snap-mcp-server.ts
+npx mocha --require tsx integrations/tests/mcp-stdio.test.ts
 ```
-
-`SNAP_MCP_NOTE` should be a serialized note returned by `SNAPClient.serializeNote(...)` or a deposit command that already uses the SDK.
-
-## Live Vs Stubbed
-
-- Live mode: real SDK, real RPC, real relayer URL
-- Stub mode: set `SNAP_MCP_STUB_MODE=1` for transport-only smoke tests
-
-The Phase 10/11 MCP tests exercise the real stdio transport and tool round-trips. Pool operations stay deterministic in CI by using stub mode there.

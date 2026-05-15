@@ -1,43 +1,38 @@
-# SNAP AgentKit Live Wiring
+# SNAP Coinbase AgentKit Actions
 
-This is the live reference path for the AgentKit integration added in the repo. The automated tests still stub the framework shell, but the runtime calls below go through the real SNAP SDK surface.
+Action provider for `@coinbase/agentkit` `0.10.4`.
 
-## Runtime Assumptions
+## Actions
 
-- the agent wallet controls the recipient address for `snapWithdraw` or `snapWithdrawPrivate`
-- the relayer is already running and serving the target pool
-- the wallet has enough SOL to deposit into the pool
+- `snap_list_pools`
+- `snap_deposit`
+- `snap_withdraw`
+- `snap_withdraw_private`
+- `snap_estimate_fee`
+
+`snap_deposit`, `snap_withdraw`, and `snap_estimate_fee` default to the configured pool when `pool` is omitted. `snap_withdraw_private` uses the per-call `relayerUrl` or the provider default.
 
 ## Minimal Wiring
 
 ```ts
-import { createSNAPPlugin } from "../../agent-kit-tool/src";
+import { Connection, Keypair } from "@solana/web3.js";
+import { SNAPClient } from "snap-solana-sdk";
+import { SNAPActionProvider } from "./integrations/agentkit/snap-actions";
 
-const snapPlugin = createSNAPPlugin();
+const connection = new Connection("https://api.mainnet-beta.solana.com", "confirmed");
+const wallet = Keypair.fromSecretKey(Uint8Array.from(JSON.parse(process.env.SNAP_WALLET_KEYPAIR_JSON!)));
+const snapClient = new SNAPClient(connection, wallet);
 
-const deposit = await snapPlugin.methods.snapDeposit(
-  agent,
-  "8P7oho4YD6QPsVusD8bwRejgJK3EXYw9wV3dmcE2bFQT",
-  0.1,
-);
-
-const relayed = await snapPlugin.methods.snapWithdrawPrivate(
-  agent,
-  "8P7oho4YD6QPsVusD8bwRejgJK3EXYw9wV3dmcE2bFQT",
-  String(deposit.note),
-  "http://127.0.0.1:3000",
-);
+export const snapActions = new SNAPActionProvider(snapClient, {
+  poolAddress: "B8SyffZKt8LABKogWjH9rZcjY5PV2hyYRCbTxxbcrpFf",
+  relayerUrl: process.env.SNAP_RELAYER_URL,
+});
 ```
 
-## Recommended Devnet Inputs
+## Mainnet Pools
 
-- pool: `8P7oho4YD6QPsVusD8bwRejgJK3EXYw9wV3dmcE2bFQT`
-- relayer URL: the live relayer base URL that serves that pool
-- amount: `0.1`
+- `0.1 SOL`: `B8SyffZKt8LABKogWjH9rZcjY5PV2hyYRCbTxxbcrpFf`
+- `1 USDC`: `5LeuHrPBgHNhgbCy996MEjcsBk5gNHhVj6AiuuCHZ8od`
+- `10 USDC`: `ECuHf8kgiWfmL3Q6id4WGBQWvuukhzqvF5vsxuPAKZBv`
 
-## Live Vs Stubbed
-
-- Live-capable path: `snapDeposit`, `snapWithdraw`, and `snapWithdrawPrivate` call the real SDK
-- Stubbed test path: the framework shell around those calls is stubbed in automated tests to keep failures isolated to adapter behavior
-
-Use the validator-backed relayer E2E suite and the Phase 11 canary/soak scripts for chain-level validation. Use this AgentKit path for operator and downstream integration wiring.
+Use the validator-backed localnet suite for chain-level proof and relayer validation. These actions are thin framework wrappers over the public SNAP SDK surface.

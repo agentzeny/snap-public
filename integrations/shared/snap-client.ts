@@ -6,27 +6,41 @@ export interface SnapPoolInfoLike {
   tokenMint?: PublicKey | null;
 }
 
+export interface SnapWithdrawalEstimateLike {
+  depositAmount: number;
+  protocolFee: number;
+  relayerFee: number;
+  recipientAmount: number;
+  totalFee: number;
+  protocolFeeBps?: number;
+}
+
 export interface SnapClientLike {
   deposit(pool: PublicKey, amount?: number): Promise<{ depositIndex: number }>;
   withdraw(
     pool: PublicKey,
     note: unknown,
-    recipient: PublicKey,
+    recipient: PublicKey
   ): Promise<string>;
   withdrawViaRelayer(
     pool: PublicKey,
     note: unknown,
     recipient: PublicKey,
-    relayerUrl?: string,
+    relayerUrl?: string
   ): Promise<{
     txSignature: string;
     fee: number;
     recipientReceived?: number;
   }>;
+  estimateWithdrawal?(pool: PublicKey): Promise<SnapWithdrawalEstimateLike>;
+  estimateRelayedWithdrawal?(
+    pool: PublicKey,
+    relayerUrl?: string
+  ): Promise<SnapWithdrawalEstimateLike>;
   getPoolInfo(pool: PublicKey): Promise<SnapPoolInfoLike>;
   getAgentHistory?(
     pool: PublicKey,
-    viewingKey: unknown,
+    viewingKey: unknown
   ): Promise<
     Array<{
       type: "deposit" | "withdrawal";
@@ -59,18 +73,63 @@ export function formatAssetLabel(poolInfo: SnapPoolInfoLike): string {
   }
 
   return poolInfo.tokenMint
-    ? `${poolInfo.depositAmount} tokens of mint ${poolInfo.tokenMint.toBase58()}`
+    ? `${
+        poolInfo.depositAmount
+      } tokens of mint ${poolInfo.tokenMint.toBase58()}`
     : `${poolInfo.depositAmount} tokens`;
+}
+
+export async function estimateWithdrawalFee(
+  snapClient: SnapClientLike,
+  pool: PublicKey,
+  relayerUrl?: string
+): Promise<SnapWithdrawalEstimateLike> {
+  if (relayerUrl && snapClient.estimateRelayedWithdrawal) {
+    return snapClient.estimateRelayedWithdrawal(pool, relayerUrl);
+  }
+
+  if (snapClient.estimateWithdrawal) {
+    return snapClient.estimateWithdrawal(pool);
+  }
+
+  const poolInfo = await snapClient.getPoolInfo(pool);
+  const protocolFee = roundDisplayAmount(poolInfo.depositAmount * 0.0025);
+  const recipientAmount = roundDisplayAmount(
+    poolInfo.depositAmount - protocolFee
+  );
+
+  return {
+    depositAmount: poolInfo.depositAmount,
+    protocolFee,
+    relayerFee: 0,
+    recipientAmount,
+    totalFee: protocolFee,
+    protocolFeeBps: 25,
+  };
+}
+
+export function formatWithdrawalEstimate(
+  estimate: SnapWithdrawalEstimateLike,
+  poolInfo: SnapPoolInfoLike
+): string {
+  const unit = poolInfo.assetType === "sol" ? "SOL" : "tokens";
+  return [
+    `Deposit amount: ${estimate.depositAmount} ${unit}`,
+    `Protocol fee: ${estimate.protocolFee} ${unit}`,
+    `Relayer fee: ${estimate.relayerFee} ${unit}`,
+    `Recipient receives: ${estimate.recipientAmount} ${unit}`,
+    `Total fee: ${estimate.totalFee} ${unit}`,
+  ].join(". ");
 }
 
 export async function getShieldedBalance(
   snapClient: SnapClientLike,
   pool: PublicKey,
-  viewingKey: unknown,
+  viewingKey: unknown
 ): Promise<number> {
   if (!snapClient.getAgentHistory) {
     throw new Error(
-      "SNAP integration requires snapClient.getAgentHistory(...) for private balance checks",
+      "SNAP integration requires snapClient.getAgentHistory(...) for private balance checks"
     );
   }
 
@@ -82,4 +141,8 @@ export async function getShieldedBalance(
 
     return total;
   }, 0);
+}
+
+function roundDisplayAmount(amount: number): number {
+  return Number(amount.toFixed(9));
 }

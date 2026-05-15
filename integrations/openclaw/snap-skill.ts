@@ -1,10 +1,13 @@
 import {
+  estimateWithdrawalFee,
   formatAssetLabel,
+  formatWithdrawalEstimate,
   getShieldedBalance,
   parsePoolAddress,
   parseRecipientAddress,
   type SnapIntegrationContext,
 } from "../shared/snap-client";
+import { listKnownPools } from "../shared/pools";
 
 /**
  * OpenClaw skill wrapper for SNAP.
@@ -15,28 +18,50 @@ import {
  */
 export async function handleCommand(
   command: string,
-  context: SnapIntegrationContext,
+  context: SnapIntegrationContext
 ): Promise<string> {
   const normalized = command.trim().toLowerCase();
   const pool = parsePoolAddress(context.poolAddress);
+
+  if (isListPoolsCommand(normalized)) {
+    return JSON.stringify(
+      {
+        pools: listKnownPools(context.poolAddress),
+      },
+      null,
+      2
+    );
+  }
 
   if (isDepositCommand(normalized)) {
     const amount = extractAmount(command);
     if (amount === null) {
       throw new Error(
-        "SNAP OpenClaw deposit requires an amount, for example: deposit 0.1 SOL into SNAP pool",
+        "SNAP OpenClaw deposit requires an amount, for example: deposit 0.1 SOL into SNAP pool"
       );
     }
 
     const deposit = await context.snapClient.deposit(pool, amount);
     const poolInfo = await context.snapClient.getPoolInfo(pool);
-    return `Deposited ${formatAssetLabel(poolInfo)} into SNAP. Deposit index ${deposit.depositIndex}.`;
+    return `Deposited ${formatAssetLabel(poolInfo)} into SNAP. Deposit index ${
+      deposit.depositIndex
+    }.`;
+  }
+
+  if (isEstimateCommand(normalized)) {
+    const poolInfo = await context.snapClient.getPoolInfo(pool);
+    const estimate = await estimateWithdrawalFee(
+      context.snapClient,
+      pool,
+      context.relayerUrl
+    );
+    return formatWithdrawalEstimate(estimate, poolInfo);
   }
 
   if (isWithdrawCommand(normalized)) {
     if (!context.note) {
       throw new Error(
-        "SNAP OpenClaw withdraw requires a note in context.note before funds can be claimed",
+        "SNAP OpenClaw withdraw requires a note in context.note before funds can be claimed"
       );
     }
 
@@ -44,14 +69,24 @@ export async function handleCommand(
       extractRecipientAddress(command) ?? context.recipientAddress;
     if (!recipientAddress) {
       throw new Error(
-        "SNAP OpenClaw withdraw requires a recipient address in the command or context.recipientAddress",
+        "SNAP OpenClaw withdraw requires a recipient address in the command or context.recipientAddress"
       );
+    }
+
+    if (context.relayerUrl) {
+      const result = await context.snapClient.withdrawViaRelayer(
+        pool,
+        context.note,
+        parseRecipientAddress(recipientAddress),
+        context.relayerUrl
+      );
+      return `Withdrew from SNAP to ${recipientAddress} through a relayer. Transaction: ${result.txSignature}. Fee ${result.fee}.`;
     }
 
     const signature = await context.snapClient.withdraw(
       pool,
       context.note,
-      parseRecipientAddress(recipientAddress),
+      parseRecipientAddress(recipientAddress)
     );
     return `Withdrew from SNAP to ${recipientAddress}. Transaction: ${signature}.`;
   }
@@ -59,19 +94,23 @@ export async function handleCommand(
   if (isBalanceCommand(normalized)) {
     if (!context.viewingKey) {
       throw new Error(
-        "SNAP OpenClaw balance check requires context.viewingKey to inspect shielded funds",
+        "SNAP OpenClaw balance check requires context.viewingKey to inspect shielded funds"
       );
     }
 
     const balance = await getShieldedBalance(
       context.snapClient,
       pool,
-      context.viewingKey,
+      context.viewingKey
     );
     return `Private SNAP balance: ${balance}.`;
   }
 
   throw new Error(`SNAP OpenClaw skill does not recognize command: ${command}`);
+}
+
+function isListPoolsCommand(command: string): boolean {
+  return /(?:list|show).*(?:snap )?pools/i.test(command);
 }
 
 function extractAmount(command: string): number | null {
@@ -93,5 +132,11 @@ function isWithdrawCommand(command: string): boolean {
 }
 
 function isBalanceCommand(command: string): boolean {
-  return /(?:balance|what'?s in my snap pool|show my private balance)/i.test(command);
+  return /(?:balance|what'?s in my snap pool|show my private balance)/i.test(
+    command
+  );
+}
+
+function isEstimateCommand(command: string): boolean {
+  return /(?:estimate|fee|cost)/i.test(command);
 }
