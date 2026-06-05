@@ -1,6 +1,6 @@
 # SNAP Troubleshooting
 
-> Status: troubleshooting notes for the SNAP limited release. Operational fixes here do not change the review-stage security limitations documented elsewhere in the repo.
+> Troubleshooting notes for the SNAP protocol.
 
 ## Common Errors
 

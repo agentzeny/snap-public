@@ -1,6 +1,6 @@
 # SNAP Scaling Report
 
-> Status: limited-release scaling evidence. These measurements are useful for capped-rollout planning, but they are not a substitute for production benchmarking on shared infrastructure.
+> Scaling measurements for the SNAP protocol on Solana mainnet.
 
 ## Scope
 

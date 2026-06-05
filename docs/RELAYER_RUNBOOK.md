@@ -1,6 +1,6 @@
 # RELAYER_RUNBOOK
 
-> Status: relayer operations guidance for the SNAP limited release. Treat any mainnet rollout as tightly capped until audit, broader governance hardening, and more production rehearsal are complete.
+> Relayer operations guidance for the SNAP protocol on Solana mainnet.
 
 ## Purpose
 

@@ -1,6 +1,6 @@
 # SNAP Compliance Framework
 
-> Status: limited-release posture note. This is operational guidance for a capped rollout, not a legal conclusion or a launch representation for an audited deployment.
+> Compliance posture note for the SNAP protocol. This is operational guidance, not a legal conclusion.
 
 > Disclaimer: This document is not legal advice. It is a technical posture note and must be reviewed by a crypto-specialized attorney before publication or reliance.
 

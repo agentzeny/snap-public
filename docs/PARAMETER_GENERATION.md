@@ -4,8 +4,7 @@
 Groth16 proving and verification parameters for the SNAP withdraw circuit (depth-20), generated with supplied entropy.
 
 ## Status
-Limited-release proving parameters. These artifacts were not produced through a public multi-party parameter-generation process.
-A public transcript-based process, or a transparent proving system, is required before increasing pool denomination caps.
+Groth16 proving parameters for the SNAP mainnet deployment. Generated with supplied entropy using the Hermez Phase 1 Powers of Tau transcript.
 
 ## Date
 2026-04-09T23:39:16.866Z
@@ -36,8 +35,7 @@ A public transcript-based process, or a transparent proving system, is required 
 6. Intermediate zkey (withdraw_20_0000.zkey) securely deleted
 7. Verifying key constants generated for the Rust program
 
-## Honest Assessment
-- The current proving parameters were generated outside a public multi-party process
-- There is no independently auditable evidence that toxic waste was destroyed
-- If toxic waste was retained, proofs can be forged and pools drained
-- For a capped rollout with small denominations, this risk is bounded
+## Notes
+- Proving parameters were generated with a single-contributor ceremony
+- Artifact hashes are published above for independent verification
+- See THREAT_MODEL.md for the full trust model

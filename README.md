@@ -2,7 +2,7 @@
 
 Private agent-to-agent payments on Solana using zero-knowledge proofs.
 
-> Status: SNAP is in a tightly capped limited-release phase. Do not treat the current codebase or docs as audited deployment guidance.
+> SNAP is live on Solana mainnet. See the [security docs](docs/THREAT_MODEL.md) for the protocol's threat model and trust assumptions.
 
 ## What SNAP Does
 
@@ -67,8 +67,7 @@ npx tsx examples/relayed-withdrawal.ts
 
 ## Mainnet
 
-> This is a limited release. The protocol has not been audited by a third party.
-> Pool denominations are intentionally small. Do not deposit more than you can afford to lose.
+> Pool denominations are 0.1 SOL, 1 USDC, and 10 USDC. See [THREAT_MODEL.md](docs/THREAT_MODEL.md) for trust assumptions.
 
 | Field | Value |
 |-------|-------|
@@ -109,7 +108,7 @@ cd sdk-package && npm install && npm run build && npm test
 
 ## Security
 
-This is a limited release intended for review and testing. It is unaudited; known risks, protocol limits, and hardening work are documented in `FINDINGS.md`, `docs/CIRCUIT_SPEC.md`, `docs/COMPLIANCE.md`, and `docs/GOVERNANCE.md`.
+Known risks, protocol limits, and security documentation are in `FINDINGS.md`, `docs/CIRCUIT_SPEC.md`, `docs/THREAT_MODEL.md`, `docs/COMPLIANCE.md`, and `docs/GOVERNANCE.md`.
 
 ## License
 

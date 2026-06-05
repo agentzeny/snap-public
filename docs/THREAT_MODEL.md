@@ -1,6 +1,6 @@
 # SNAP Threat Model
 
-> Status: threat-model notes for the SNAP limited release. The residual risks described here should be assumed active until audit and broader governance hardening are complete.
+> Threat model for the SNAP protocol on Solana mainnet.
 
 ## Scope And Trust Assumptions
 

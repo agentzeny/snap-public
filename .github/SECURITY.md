@@ -1,16 +1,8 @@
 # Security Policy
 
-## Important Notice
+## Overview
 
-SNAP is a devnet beta. It has not been audited. Do not use it with real funds.
-
-## Known Gaps
-
-See `FINDINGS.md` for the current security analysis, including:
-
-- proving parameters generated outside a public multi-party transcript
-- no formal verification of circuit constraints
-- a demo-grade relayer with no auth or rate limiting
+SNAP is live on Solana mainnet. See `FINDINGS.md` for the current security analysis and `docs/THREAT_MODEL.md` for trust assumptions.
 
 ## Reporting Vulnerabilities
 

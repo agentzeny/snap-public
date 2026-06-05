@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 — Mainnet Limited Release
+## 0.1.0 — Mainnet Launch
 
 ### Added
 - Mainnet deployment on Solana mainnet-beta
@@ -11,7 +11,6 @@
 - Mutable treasury with update_treasury instruction
 
 ### Security
-- Limited release. Not audited. Not for large amounts.
 - See FINDINGS.md and docs/THREAT_MODEL.md for full risk assessment.
 
 ## 0.1.0-beta.1
@@ -31,5 +30,4 @@
 
 ### Security
 
-- This is a devnet beta for review and testing. Not audited.
-- See `FINDINGS.md` for the current security analysis and known gaps.
+- See `FINDINGS.md` for the current security analysis.

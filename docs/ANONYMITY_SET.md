@@ -1,6 +1,6 @@
 # SNAP Anonymity Set Strategy
 
-> Status: guidance for the SNAP limited release. Pool caps, acceptable anonymity thresholds, and launch claims should stay conservative until after audit and a stronger proving-parameter process.
+> Anonymity set strategy and guidance for the SNAP protocol on Solana mainnet.
 
 ## The Cold Start Problem
 

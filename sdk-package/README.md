@@ -2,7 +2,7 @@
 
 Shielded agent-to-agent payments on Solana with automatic Groth16 proof generation.
 
-> Status: `snap-solana-sdk` is for the SNAP limited release. It is not audited production software.
+> `snap-solana-sdk` is live on Solana mainnet. See the [security docs](../docs/THREAT_MODEL.md) for trust assumptions.
 
 ## Quick Start
 

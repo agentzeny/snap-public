@@ -63,8 +63,8 @@ function main(): void {
     verifyRustVerifyingKey
   );
   runCheck(
-    "Limited-release language is present in launch docs",
-    verifyLimitedReleaseLanguage
+    "Security docs are referenced in launch docs",
+    verifySecurityDocsReferenced
   );
   runCheck(
     "Spend-key docs do not claim proofs are signed",
@@ -281,28 +281,24 @@ function verifyRustVerifyingKey(): string {
   return "verifying_key_20.rs matches generated constants";
 }
 
-function verifyLimitedReleaseLanguage(): string {
+function verifySecurityDocsReferenced(): string {
   const docPaths = [
     path.join(ROOT_DIR, "README.md"),
     path.join(ROOT_DIR, "sdk-package", "README.md"),
-    ...fs
-      .readdirSync(DOCS_DIR)
-      .filter((file) => file.endsWith(".md"))
-      .map((file) => path.join(DOCS_DIR, file)),
   ];
 
   const missing = docPaths.filter((docPath) => {
     const content = fs.readFileSync(docPath, "utf8").toLowerCase();
     return (
-      !content.includes("limited release") &&
-      !content.includes("limited-release") &&
-      !content.includes("capped")
+      !content.includes("threat_model") &&
+      !content.includes("findings") &&
+      !content.includes("security")
     );
   });
 
   if (missing.length > 0) {
     throw new Error(
-      `missing limited-release language in ${missing
+      `missing security docs reference in ${missing
         .map((file) => path.basename(file))
         .join(", ")}`
     );

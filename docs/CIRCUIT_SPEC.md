@@ -1,6 +1,6 @@
 # SNAP Withdraw Circuit Specification
 
-> Status: circuit notes for the SNAP limited release. The proving system and parameter-generation process are still review-stage, and the current documentation should not be read as an audit report.
+> Circuit specification for the SNAP withdraw circuits on Solana mainnet.
 
 ## Circuit Description
 

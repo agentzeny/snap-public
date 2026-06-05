@@ -1,6 +1,6 @@
-# SNAP Governance — Limited Release
+# SNAP Governance
 
-> Status: governance posture for the SNAP limited release. This is intentionally simple while the protocol remains tightly capped.
+> Governance posture for the SNAP protocol on Solana mainnet.
 
 ## Upgrade Authority
 
@@ -29,9 +29,8 @@ If a critical vulnerability is discovered:
 
 ### Future Governance
 
-The single-key model is appropriate for a tightly capped release with small
-denominations. Before increasing denomination caps or removing the
-limited-release label, consider:
+The single-key model is used for the current deployment. Before increasing
+denomination caps or adding new pool types, consider:
 
 - Transferring upgrade authority to a multisig such as Squads
 - Transferring pool authority to the same multisig
