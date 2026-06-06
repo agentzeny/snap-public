@@ -2,6 +2,12 @@
 
 Private agent-to-agent payments on Solana using zero-knowledge proofs.
 
+[![GitHub stars](https://img.shields.io/github/stars/agentzeny/snap-public?style=social)](https://github.com/agentzeny/snap-public/stargazers)
+[![snap-solana-sdk](https://img.shields.io/npm/v/snap-solana-sdk?label=snap-solana-sdk&color=34d399)](https://www.npmjs.com/package/snap-solana-sdk)
+[![snap-langchain-tools](https://img.shields.io/npm/v/snap-langchain-tools?label=snap-langchain-tools&color=34d399)](https://www.npmjs.com/package/snap-langchain-tools)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Solana](https://img.shields.io/badge/Solana-mainnet--beta-9945FF?logo=solana&logoColor=white)](https://explorer.solana.com/address/9uePoqdgaXpqFLQM2ED1GGQrwSEiqe3r6tW1AfsnrrbS)
+
 > SNAP is live on Solana mainnet. See the [security docs](docs/THREAT_MODEL.md) for the protocol's threat model and trust assumptions.
 
 ## What SNAP Does
@@ -63,6 +69,7 @@ npx tsx examples/relayed-withdrawal.ts
 | ZK Circuit | circom Groth16 circuit using Poseidon and a depth-10 Merkle tree |
 | SDK | `snap-solana-sdk` for note handling, proof generation, and client API |
 | Agent Kit Plugin | Solana Agent Kit v2 plugin with `snap_create_pool`, `snap_deposit`, `snap_withdraw`, and `snap_withdraw_private` |
+| LangChain Tools | `snap-langchain-tools` — StructuredTool wrappers for LangChain/LangGraph agents |
 | Relayer | Express service for gas-abstracted private withdrawals |
 
 ## Mainnet
