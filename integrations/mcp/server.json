@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.agentzeny/snap-private-payments",
-  "description": "Private agent-to-agent payments on Solana mainnet using Groth16 zero-knowledge proofs. Deposit into shielded pools, withdraw with ZK proofs, list pools, and estimate fees.",
+  "description": "Private agent payments on Solana via ZK proofs: deposit, withdraw, list pools, estimate fees.",
   "title": "SNAP Protocol",
   "websiteUrl": "https://agentzeny.ai",
   "repository": {
@@ -9,13 +9,13 @@
     "source": "github",
     "subfolder": "integrations/mcp"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "packages": [
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
-      "identifier": "snap-solana-sdk",
-      "version": "0.1.1",
+      "identifier": "snap-mcp-server",
+      "version": "0.1.2",
       "transport": {
         "type": "stdio"
       },
